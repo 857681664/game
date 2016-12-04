@@ -7,7 +7,7 @@ namespace game.entity
 {
     public class FourStarMonster : CardMonster, IEffect
     {
-        public delegate bool CanEffectHandle(int magicNum, int trapNum);
+        public delegate bool CanEffectHandle(MEAEventAgrs e, int magicNum, int trapNum);
 
         public delegate bool EffectHandle(MEAEventAgrs e);
 
@@ -23,25 +23,29 @@ namespace game.entity
 //        public int Number { get; set; }
 //
         public string Effect { get; set; }
-        
-//        public int Star { get; } = 4;
-//
-//        public Const.PropEnum Prop { get; set; }
-//
-//        public bool IsAttack { get; set; }
-//
-//        public bool CanAttack { get; set; }
-//
-//        public bool CanMove { get; set; }
-//
-//        public bool CanEffective { get; set; }
-//
-//        public Const.PlayerBelongs Belongs { get; set; }
-//
-//        public Image MonsterImage { get; set; }
-//        public Const.EffectKindEnum EffectKind { get; set; }
 
-//        public Const.PointKindEnum PointKind { get; set; }
+        public int NeedMagic { get; set; }
+
+        public int NeedTrap { get; set; }
+
+        //        public int Star { get; } = 4;
+        //
+        //        public Const.PropEnum Prop { get; set; }
+        //
+        //        public bool IsAttack { get; set; }
+        //
+        //        public bool CanAttack { get; set; }
+        //
+        //        public bool CanMove { get; set; }
+        //
+        //        public bool CanEffective { get; set; }
+        //
+        //        public Const.PlayerBelongs Belongs { get; set; }
+        //
+        //        public Image MonsterImage { get; set; }
+        //        public Const.EffectKindEnum EffectKind { get; set; }
+
+        //        public Const.PointKindEnum PointKind { get; set; }
 
         public FourStarMonster(MonsterDto dto,  EffectHandle effectDelegate, CanEffectHandle canEffectHandle)
         {
@@ -52,6 +56,8 @@ namespace game.entity
             Effect = dto.Effect;
             Attack = dto.Attack;
             Defense = dto.Defense;
+            NeedMagic = dto.NeedMagic;
+            NeedTrap = dto.NeedTrap;
             Prop = dto.Prop;
             EffectKind = dto.EffectKind;
             PointKind = dto.PointKind;
@@ -72,9 +78,9 @@ namespace game.entity
             return UserEffectEvent != null && UserEffectEvent.Invoke(e);
         }
 
-        public bool CanEffect(int magicNum, int trapNum)
+        public bool CanEffect(MEAEventAgrs e, int magicNum, int trapNum)
         {
-            return CanEffectEvent != null && CanEffectEvent.Invoke(magicNum, trapNum);
+            return CanEffectEvent != null && CanEffectEvent.Invoke(e, magicNum, trapNum);
         }
     }
 }

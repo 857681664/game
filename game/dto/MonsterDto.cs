@@ -13,6 +13,10 @@
 
         public int Star { get; set; }
 
+        public int NeedMagic { get; set; }
+
+        public int NeedTrap { get; set; }
+
         public string Descripe { get; set; }
 
         public string Name { get; set; }

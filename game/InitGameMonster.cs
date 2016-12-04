@@ -75,6 +75,8 @@ namespace game
                     dto.Effect = items[i].Attributes["effect"].Value;
                     dto.Attack = Convert.ToInt32(items[i].Attributes["attack"].Value);
                     dto.Defense = Convert.ToInt32(items[i].Attributes["defense"].Value);
+                    dto.NeedMagic = Convert.ToInt32(effectNode.Attributes["magic"].Value);
+                    dto.NeedTrap = Convert.ToInt32(effectNode.Attributes["trap"].Value);
                     dto.Prop = (Const.PropEnum)Enum.Parse(typeof(Const.PropEnum), items[i].Attributes["prop"].Value);
                     dto.EffectKind = (Const.EffectKindEnum)Enum.Parse(typeof(Const.EffectKindEnum), effectNode.Attributes["effectKind"].Value);
                     dto.PointKind = (Const.PointKindEnum)Enum.Parse(typeof(Const.PointKindEnum), effectNode.Attributes["pointKind"].Value);
@@ -107,6 +109,8 @@ namespace game
                     dto.Effect = items[i].Attributes["effect"].Value;
                     dto.Attack = Convert.ToInt32(items[i].Attributes["attack"].Value);
                     dto.Defense = Convert.ToInt32(items[i].Attributes["defense"].Value);
+                    dto.NeedMagic = Convert.ToInt32(effectNode.Attributes["magic"].Value);
+                    dto.NeedTrap = Convert.ToInt32(effectNode.Attributes["trap"].Value);
                     dto.Prop = (Const.PropEnum)Enum.Parse(typeof(Const.PropEnum), items[i].Attributes["prop"].Value);
                     dto.EffectKind = (Const.EffectKindEnum)Enum.Parse(typeof(Const.EffectKindEnum), effectNode.Attributes["effectKind"].Value);
                     dto.PointKind = (Const.PointKindEnum)Enum.Parse(typeof(Const.PointKindEnum), effectNode.Attributes["pointKind"].Value);
@@ -139,10 +143,10 @@ namespace game
         /// <param name="dto"></param>
         /// <param name="effectName"></param>
         /// <returns></returns>
-        private static CardMonster BuilderThreeAndFourStarMonster(Type type, MonsterDto dto,  string effectName,int magicNum, int trapNum)
+        private static CardMonster BuilderThreeAndFourStarMonster(Type type, MonsterDto dto,  string effectName)
         {
             CardMonster monster;
-             Type monsterEffect = typeof (MonsterEffect);
+            Type monsterEffect = typeof (MonsterEffect);
             MethodInfo method = monsterEffect.GetMethod(effectName);
             MethodInfo canEffectMethod = monsterEffect.GetMethod("CanEffect");
             Delegate effectDelegate = Delegate.CreateDelegate(type.GetNestedType("EffectHandle"), null, method);

@@ -230,12 +230,31 @@ namespace game.control
         private void EffectMenuItem_Click(object sender, EventArgs e)
         {
             meaEventAgrs.LastGameLabel = this;
-            Type t = meaEventAgrs.LastGameLabel.Monster.GetType();
-            object[] objects = { meaEventAgrs };
-            if (meaEventAgrs.LastGameLabel.Monster.EffectKind == Const.EffectKindEnum.NotPoint)
+            Type t = meaEventAgrs.LastGameLabel.Monster.Star == 3 ? typeof (ThreeStarMonster) : typeof (FourStarMonster);
+            bool canEffect = (bool)t.GetMethod("CanEffect")
+                .Invoke(meaEventAgrs.LastGameLabel.Monster,
+                    new object[]
+                    {
+                        meaEventAgrs,
+                        (int)t.GetProperty("NeedMagic").GetValue(meaEventAgrs.LastGameLabel.Monster,null),
+                        (int)t.GetProperty("NeedTrap").GetValue(meaEventAgrs.LastGameLabel.Monster,null)
+                    });
+            if (!canEffect)
             {
-                t.GetMethod("UserEffect").Invoke(meaEventAgrs.LastGameLabel.Monster, objects);
+                MessageBox.Show("印章不足，发动失败");
             }
+            else
+            {
+                object[] objects = { meaEventAgrs };
+                if (meaEventAgrs.LastGameLabel.Monster.EffectKind == Const.EffectKindEnum.NotPoint)
+                {
+                    t.GetMethod("UserEffect").Invoke(meaEventAgrs.LastGameLabel.Monster, objects);
+                }
+                Monster.CanEffective = false;
+                Monster.CanAttack = false;
+                Refresh();
+            }
+            
 //            var canEffect = (bool)t.GetMethod("CanEffect").Invoke(meaEventAgrs.LastGameLabel.Monster, objects);
 //            if (!canEffect)
 //                MessageBox.Show("印章不足，发动失败", "提示");
@@ -246,9 +265,7 @@ namespace game.control
 //                else
 //                    LeftClickEventArgs.LeftClick = Const.LeftClickEnum.SelectMonster;
 //            }
-            Monster.CanEffective = false;
-            Monster.CanAttack = false;
-            Refresh();
+            
         }
 
         private void AttackMenuItem_Click(object sender, EventArgs e)

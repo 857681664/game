@@ -26,6 +26,10 @@ namespace game.entity
 //
         public string Effect { get; set; }
 
+        public int NeedMagic { get; set; }
+
+        public int NeedTrap { get; set; }
+
 //        public int Star { get; } = 3;
 //
 //        public Const.PropEnum Prop { get; set; }
@@ -55,6 +59,8 @@ namespace game.entity
             Effect = dto.Effect;
             Attack = dto.Attack;
             Defense = dto.Defense;
+            NeedMagic = dto.NeedMagic;
+            NeedTrap = dto.NeedTrap;
             Prop = dto.Prop;
             EffectKind = dto.EffectKind;
             PointKind = dto.PointKind;
