@@ -1,0 +1,17 @@
+H:\c#\game\game\bin\Release\game.exe.config
+H:\c#\game\game\bin\Release\game.exe.manifest
+H:\c#\game\game\bin\Release\game.application
+H:\c#\game\game\bin\Release\game.exe
+H:\c#\game\game\bin\Release\game.pdb
+H:\c#\game\game\obj\Release\game.Form1.resources
+H:\c#\game\game\obj\Release\game.Properties.Resources.resources
+H:\c#\game\game\obj\Release\game.csproj.GenerateResource.Cache
+H:\c#\game\game\obj\Release\game.exe.manifest
+H:\c#\game\game\obj\Release\game.application
+H:\c#\game\game\obj\Release\game.exe
+H:\c#\game\game\obj\Release\game.pdb
+H:\c#\game\game\obj\Release\game.csprojResolveAssemblyReference.cache
+H:\c#\game\game\bin\Release\MySql.Data.dll
+H:\c#\game\game\bin\Release\MySql.Data.xml
+H:\c#\game\game\obj\Release\game.control.RegisterForm.resources
+H:\c#\game\game\obj\Release\game.control.LoginForm.resources

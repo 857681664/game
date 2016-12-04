@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="game.exe" version="1.0.0.5" publicKeyToken="9bf74c05e5ec20c8" language="zh-CN" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="ooopic_1471838359.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="game" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="game.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC 清单选项
+          如果要更改 Windows 用户帐户控制级别，请用以下节点之一替换
+          requestedExecutionLevel 节点。
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+          如果要利用文件和注册表虚拟化提供
+          向后兼容性，请删除 requestedExecutionLevel 节点。
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="game.exe" size="155096">
+      <assemblyIdentity name="game" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>SkZsvfiEc6FokRsEFvWvefaGWpeRJinKVJS0NsNkbSs=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="game.exe.config" size="184">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>FqWy0dfMmRS85zkU1NlW07p6LsNOPUHodvLiZcFdgJY=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="ooopic_1471838359.ico" size="67646">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>FM330pT4BL4ocaBtatSOp9M0ctDlUV/FfKNYXAjQHtw=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=DESKTOP-RBBS1VA\zhs" issuerKeyHash="d539b940d96d9b6c5e604af118ed4d39df687847" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>X3Y7EXsV2FWsZj5F/3ktxBMZ9fNyz8hESzAj4dHYIvE=</DigestValue></Reference></SignedInfo><SignatureValue>jZaJhgCeIIht6Kune62T9zTnpZR3B0Va2MMvIoP/5/fd7UrUTYIZiYzaeHnIVj/r1NwDNW67p0AjaOsPoPA36s0X5gUwtwiS7Hv0nD1QzvXgQE2fwLQjMCZhN/cizO2taJvp54XPAGUFz0Bh8hBkKqaE2mrtG14TBR//uwEuuCI=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>5FVBWiYlrm60xKA+aOKqNmvhpr8Y8k4bhsmQdAWtBMdaUGMBRCqozEwFQC8m0Ivkd7b2lQ778x5QQ2d3ARY5WZBHIN2dFIqf7JdrSr5GGEc+h8GwchFWGMMiKe7gIk9M/Y+dtMqj4QgUFr5vJtBCOqXGbqq9k9uiokmdJ15ZU1k=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="f122d8d1e123304b44c8cf72f3f51913c42d79ff453e66ac55d8157b113b765f" Description="" Url=""><as:assemblyIdentity name="game.exe" version="1.0.0.5" publicKeyToken="9bf74c05e5ec20c8" language="zh-CN" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=DESKTOP-RBBS1VA\zhs</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>AAQLrmAFCZLTWIYviLrYsRA4Awgb3+POZTE+xiVXVys=</DigestValue></Reference></SignedInfo><SignatureValue>yYmgZ0afP09au+NfTep9vnro4rF/TaXXtMijcDTXeRuo3GSD6p0noZB7B/BTkbOto8YkOIo8JDjSorbbr12KXYM9NvDTq9SNDKLCi2Mh9bcv95odZgGKghGJ2cvUO1rL73wN4OnppTtUDT0HI3VG2rzVREo/NLdJtfhonVwJJRg=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>5FVBWiYlrm60xKA+aOKqNmvhpr8Y8k4bhsmQdAWtBMdaUGMBRCqozEwFQC8m0Ivkd7b2lQ778x5QQ2d3ARY5WZBHIN2dFIqf7JdrSr5GGEc+h8GwchFWGMMiKe7gIk9M/Y+dtMqj4QgUFr5vJtBCOqXGbqq9k9uiokmdJ15ZU1k=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB5TCCAU6gAwIBAgIQZds0e7wbyJdHTqjwlKo5LjANBgkqhkiG9w0BAQsFADAxMS8wLQYDVQQDHiYARABFAFMASwBUAE8AUAAtAFIAQgBCAFMAMQBWAEEAXAB6AGgAczAeFw0xNjA4MjEwNjQyMTlaFw0xNzA4MjExMjQyMTlaMDExLzAtBgNVBAMeJgBEAEUAUwBLAFQATwBQAC0AUgBCAEIAUwAxAFYAQQBcAHoAaABzMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDkVUFaJiWubrTEoD5o4qo2a+GmvxjyThuGyZB0Ba0Ex1pQYwFEKqjMTAVALybQi+R3tvaVDvvzHlBDZ3cBFjlZkEcg3Z0Uip/sl2tKvkYYRz6HwbByEVYYwyIp7uAiT0z9j520yqPhCBQWvm8m0EI6pcZuqr2T26KiSZ0nXllTWQIDAQABMA0GCSqGSIb3DQEBCwUAA4GBAHTi+DahaQvpi+CWv91pJjEOG3acYOC9yxmJLUxLKJotk0XB5a+5FyJsVHZvSiwjo08H3uQ3PJgwWjR07ZlF6XLvS8Vkv56MF5+9oR7hVDI+D+6Hof4YnVRCTEkdSi5TnYJRC9d6duKKut7hmOdy3ILyi483n1F8mGp2Ol0h7QoA</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
