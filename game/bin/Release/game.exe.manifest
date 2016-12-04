@@ -50,7 +50,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>nQmmvCBEuMR2XqFsuEQilRyVOngAsudHwQPfOhvnwMQ=</dsig:DigestValue>
+        <dsig:DigestValue>39jKxbOcNnL9icAZ0NVtbi0ZHIbimCBCMfMMfeW7kM4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -66,13 +66,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="data.xml" size="1240" writeableType="applicationData">
+  <file name="data.xml" size="1646" writeableType="applicationData">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>fjbU1DBJW7s8e1029Mw7otG/ahEBvcMgk9yoG+7w0jw=</dsig:DigestValue>
+      <dsig:DigestValue>oDZN3ljqocp5uFXqAfNNnV4+P9LhhM3Mf2nALHzB3e4=</dsig:DigestValue>
     </hash>
   </file>
   <file name="game.exe.config" size="184">

@@ -24,6 +24,8 @@ namespace game.entity
 
         public LinkedList<PictureBox> PictureBoxlList { get; set; }
 
+        public LinkedList<CardMonster> DeathMonsters { get; set; } 
+
         public Player()
         {
             MagicNumber = 0;
@@ -33,6 +35,7 @@ namespace game.entity
             CardLinkedList = new LinkedList<CardMonster>();
             LabelLinkedList = new LinkedList<Label>();
             PictureBoxlList = new LinkedList<PictureBox>();
+            DeathMonsters = new LinkedList<CardMonster>();
         }
     }
 }

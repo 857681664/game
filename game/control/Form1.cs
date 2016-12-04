@@ -190,28 +190,26 @@ namespace game
             {
                 if (e.LastGameLabel.Monster.Attack > e.NowGameLabel.Monster.Attack)
                 {
+                    gameData.PlayerTwo.DeathMonsters.AddLast(e.NowGameLabel.Monster);
                     gameData.PlayerTwo.CardLinkedList.Remove(e.NowGameLabel.Monster);
-                    e.LastGameLabel.Monster.IsAttack = false;
-                    MainPanelRefresh();
                     e.NowGameLabel.Monster = null;
                     e.NowGameLabel.HasMonster = false;
                     e.NowGameLabel.Refresh();
                 }
                 else if (e.LastGameLabel.Monster.Attack < e.NowGameLabel.Monster.Attack)
                 {
+                    gameData.PlayerOne.DeathMonsters.AddLast(e.LastGameLabel.Monster);
                     gameData.PlayerOne.CardLinkedList.Remove(e.LastGameLabel.Monster);
-                    e.LastGameLabel.Monster.IsAttack = false;
-                    MainPanelRefresh();
                     e.LastGameLabel.Monster = null;
                     e.LastGameLabel.HasMonster = false;
                     e.LastGameLabel.Refresh();
                 }
                 else
                 {
+                    gameData.PlayerOne.DeathMonsters.AddLast(e.NowGameLabel.Monster);
+                    gameData.PlayerTwo.DeathMonsters.AddLast(e.LastGameLabel.Monster);
                     gameData.PlayerTwo.CardLinkedList.Remove(e.NowGameLabel.Monster);
                     gameData.PlayerOne.CardLinkedList.Remove(e.LastGameLabel.Monster);
-                    e.LastGameLabel.Monster.IsAttack = false;
-                    MainPanelRefresh();
                     e.LastGameLabel.Monster = null;
                     e.NowGameLabel.Monster = null;
                     e.LastGameLabel.HasMonster = false;
@@ -219,33 +217,33 @@ namespace game
                     e.LastGameLabel.Refresh();
                     e.NowGameLabel.Refresh();
                 }
+                e.LastGameLabel.Monster.IsAttack = false;
+                MainPanelRefresh();
             }
             else if (e.LastGameLabel.Monster.Belongs == Const.PlayerBelongs.PlayerTwo)
             {
                 if (e.LastGameLabel.Monster.Attack > e.NowGameLabel.Monster.Attack)
                 {
+                    gameData.PlayerOne.DeathMonsters.AddLast(e.NowGameLabel.Monster);
                     gameData.PlayerOne.CardLinkedList.Remove(e.NowGameLabel.Monster);
-                    e.LastGameLabel.Monster.IsAttack = false;
-                    MainPanelRefresh();
                     e.NowGameLabel.Monster = null;
                     e.NowGameLabel.HasMonster = false;
                     e.NowGameLabel.Refresh();
                 }
                 else if (e.LastGameLabel.Monster.Attack < e.NowGameLabel.Monster.Attack)
                 {
+                    gameData.PlayerTwo.DeathMonsters.AddLast(e.LastGameLabel.Monster);
                     gameData.PlayerTwo.CardLinkedList.Remove(e.LastGameLabel.Monster);
-                    e.LastGameLabel.Monster.IsAttack = false;
-                    MainPanelRefresh();
                     e.NowGameLabel.Monster = null;
                     e.NowGameLabel.HasMonster = false;
                     e.NowGameLabel.Refresh();
                 }
                 else
                 {
+                    gameData.PlayerTwo.DeathMonsters.AddLast(e.NowGameLabel.Monster);
+                    gameData.PlayerOne.DeathMonsters.AddLast(e.LastGameLabel.Monster);
                     gameData.PlayerTwo.CardLinkedList.Remove(e.NowGameLabel.Monster);
                     gameData.PlayerOne.CardLinkedList.Remove(e.LastGameLabel.Monster);
-                    e.LastGameLabel.Monster.IsAttack = false;
-                    MainPanelRefresh();
                     e.LastGameLabel.Monster = null;
                     e.NowGameLabel.Monster = null;
                     e.LastGameLabel.HasMonster = false;
@@ -253,6 +251,8 @@ namespace game
                     e.LastGameLabel.Refresh();
                     e.NowGameLabel.Refresh();
                 }
+                e.LastGameLabel.Monster.IsAttack = false;
+                MainPanelRefresh();
             }
             
         }
@@ -262,24 +262,24 @@ namespace game
         /// <param name="e"></param>
         public bool UserEffect(MEAEventAgrs e)
         {
-            bool IsEffect;
+//            bool IsEffect;
             Type t = e.LastGameLabel.Monster.GetType();
             object[] objects = { e };
-            IsEffect = (bool)t.GetMethod("UserEffect").Invoke(e.LastGameLabel.Monster, objects);
-            Player player = gameData.BelongDictionary[e.LastGameLabel.Belongs];
-            //如果发动失败左键类型不变
-            if (!IsEffect)
-                e.LastGameLabel.LeftClickEventArgs.LeftClick = Const.LeftClickEnum.SelectMonster;
-            //发动成功
-            else
-            {
-                if (t == typeof (YeQiPeng))
-                    monsterTextBox.Text = e.NowGameLabel.Monster.ToString();
-                e.LastGameLabel.LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
-            }
-            player.LabelLinkedList.ElementAt(2).Text = player.MagicNumber.ToString();
-            player.LabelLinkedList.ElementAt(1).Text = player.TrapNumber.ToString();
-            player.LabelLinkedList.ElementAt(0).Text = player.MoveNumber.ToString();
+            t.GetMethod("UserEffect").Invoke(e.LastGameLabel.Monster, objects);
+//            Player player = gameData.BelongDictionary[e.LastGameLabel.Belongs];
+            monsterTextBox.Text = e.NowGameLabel.Monster.ToString();
+            e.LastGameLabel.LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
+            //            //如果发动失败左键类型不变
+            //            if (!IsEffect)
+            //                e.LastGameLabel.LeftClickEventArgs.LeftClick = Const.LeftClickEnum.SelectMonster;
+            //            //发动成功
+            //            else
+            //            {
+            //                if (t == typeof (YeQiPeng))
+//            monsterTextBox.Text = e.NowGameLabel.Monster.ToString();
+//                e.LastGameLabel.LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
+//            }
+            
             return true;
         }
         /// <summary>
