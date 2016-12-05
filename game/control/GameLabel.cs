@@ -7,13 +7,13 @@ using System.Windows.Forms;
 using game.dto;
 using game.entity;
 using game.@event;
-using game.monster.fourstar;
 
 namespace game.control
 {
     /// <summary>
     /// 游戏格子，用来显示玩家所属的领地
     /// </summary>
+    [Serializable]
     public class GameLabel : Label
     {
         private ContextMenuStrip rightContextMenu;
@@ -26,7 +26,7 @@ namespace game.control
 
         public delegate bool UserEffectHandle(MEAEventAgrs e);
         public delegate void ShowMonsterHandle(CardMonster monster);
-        public delegate bool CallMonsterHandle(GameLabel sender);
+        public delegate bool CallMonsterHandle(MEAEventAgrs e);
         public delegate void MoveMonsterHandle(MEAEventAgrs e);
         public delegate void AttackMonsterHandle(MEAEventAgrs e);
         public delegate void MainPanelRefreshHandle();
@@ -91,9 +91,9 @@ namespace game.control
             {
                 BackColor = Color.FromArgb(240, 240, 240);
                 Image = Monster.MonsterImage;
-                g.DrawLine(!Monster.CanMove ? new Pen(Color.Green, 3) : new Pen(Color.FromArgb(240, 240, 240), 3),2, 0, 2, 6);
-                g.DrawLine( !Monster.CanAttack ? new Pen(Color.DarkRed, 3) : new Pen(Color.FromArgb(240, 240, 240), 3), 10, 0, 10, 6);
-                g.DrawLine(!Monster.CanEffective? new Pen(Color.BlueViolet, 3): new Pen(Color.FromArgb(240, 240, 240), 3), 20, 0, 20, 6);
+                g.DrawLine(!Monster.CanMove ? new Pen(Color.Green, 3) : new Pen(Color.FromArgb(240, 240, 240), 3),2, 0, 2, 3);
+                g.DrawLine(!Monster.CanAttack ? new Pen(Color.DarkRed, 3) : new Pen(Color.FromArgb(240, 240, 240), 3), 10, 0, 10, 3);
+                g.DrawLine(!Monster.CanEffective? new Pen(Color.BlueViolet, 3): new Pen(Color.FromArgb(240, 240, 240), 3), 20, 0, 20, 3);
             }
             else
             {
@@ -118,13 +118,19 @@ namespace game.control
             base.OnMouseClick(e);
             if (e.Button == MouseButtons.Left)
             {
-                if (!HasMonster && LeftClickEventArgs.LeftClick == Const.LeftClickEnum.CallMonster && CallMonsterEvent(this) )
+                if (!HasMonster && LeftClickEventArgs.LeftClick == Const.LeftClickEnum.CallMonster )
                 {
-                    HasMonster = true;
-                    Monster = monsterEventArgs.Monster;
-                    Belongs = monsterEventArgs.Player;
-                    Monster.Belongs = Belongs;
-                    LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
+                    meaEventAgrs.LastGameLabel = this;
+                    if ((bool)CallMonsterEvent?.Invoke(meaEventAgrs))
+                    {
+                        HasMonster = true;
+                        Monster = monsterEventArgs.Monster;
+                        Belongs = monsterEventArgs.Player;
+                        Monster.Belongs = Belongs;
+                        LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
+                    }
+                    else
+                        LeftClickEventArgs.LeftClick = Const.LeftClickEnum.CallMonster;
                 }
                 else if (LeftClickEventArgs.LeftClick == Const.LeftClickEnum.MoveMonster)
                 {

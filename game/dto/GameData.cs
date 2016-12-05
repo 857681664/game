@@ -5,10 +5,6 @@ using System.Windows.Forms;
 using game.control;
 using game.entity;
 using game.@event;
-using game.monster.fourstar;
-using game.monster.threestar;
-using game.monster.twostar;
-
 namespace game.dto
 {
     /// <summary>
@@ -43,8 +39,8 @@ namespace game.dto
             PlayerDictionary = new Dictionary<Player, Const.PlayerBelongs>();
             BelongDictionary = new Dictionary<Const.PlayerBelongs, Player>();
             ImageDictionary = new Dictionary<Player, List<Image>>();
-            PlayerOne = new Player();
-            PlayerTwo = new Player();
+            PlayerOne = new Player() {NickName = "鲍东"};
+            PlayerTwo = new Player() {NickName = "良俊"};
             PlayerOne.HisTurn = true;
             PlayerTwo.HisTurn = false;
             PlayerDictionary.Add(PlayerOne,Const.PlayerBelongs.PlayerOne);

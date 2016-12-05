@@ -43,14 +43,38 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="game.exe" size="166360">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Apache.NMS.dll" size="65024">
+      <assemblyIdentity name="Apache.NMS" version="1.7.0.3635" publicKeyToken="82756FEEE3957618" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>RP9DLu9VuqTdUYHMfpkhc3z00+7LDJ9b6GlM/WZ9zok=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Apache.NMS.ActiveMQ.dll" size="727552">
+      <assemblyIdentity name="Apache.NMS.ActiveMQ" version="1.7.0.3660" publicKeyToken="82756FEEE3957618" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>qqFr2/rHikWh8LM3tR4nUp/G3wuv2+qGK08dVM3x7e8=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="game.exe" size="167384">
       <assemblyIdentity name="game" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>pPVHkQjmHncoMBXJZqCAeqVtFB2HDiC75nKLqN6tSsc=</dsig:DigestValue>
+        <dsig:DigestValue>OIltkVMNl0nW2RgE6QRjTXpECKL+pDEHiCETBN99Pek=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

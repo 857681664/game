@@ -63,6 +63,7 @@
             this.playerTwoLPLabel1 = new System.Windows.Forms.Label();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
+            this.gameInfoTBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -239,7 +240,7 @@
             // buttonStart
             // 
             this.buttonStart.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.buttonStart.Location = new System.Drawing.Point(604, 184);
+            this.buttonStart.Location = new System.Drawing.Point(604, 191);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(70, 44);
             this.buttonStart.TabIndex = 13;
@@ -359,7 +360,7 @@
             // 
             this.buttonEnd.Enabled = false;
             this.buttonEnd.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.buttonEnd.Location = new System.Drawing.Point(692, 184);
+            this.buttonEnd.Location = new System.Drawing.Point(692, 191);
             this.buttonEnd.Name = "buttonEnd";
             this.buttonEnd.Size = new System.Drawing.Size(69, 44);
             this.buttonEnd.TabIndex = 14;
@@ -369,7 +370,7 @@
             // 
             // monsterTextBox
             // 
-            this.monsterTextBox.Location = new System.Drawing.Point(604, 234);
+            this.monsterTextBox.Location = new System.Drawing.Point(604, 241);
             this.monsterTextBox.Multiline = true;
             this.monsterTextBox.Name = "monsterTextBox";
             this.monsterTextBox.ReadOnly = true;
@@ -414,11 +415,20 @@
             this.pictureBox8.TabIndex = 31;
             this.pictureBox8.TabStop = false;
             // 
+            // gameInfoTBox
+            // 
+            this.gameInfoTBox.Location = new System.Drawing.Point(604, 29);
+            this.gameInfoTBox.Multiline = true;
+            this.gameInfoTBox.Name = "gameInfoTBox";
+            this.gameInfoTBox.Size = new System.Drawing.Size(308, 156);
+            this.gameInfoTBox.TabIndex = 32;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(770, 546);
+            this.ClientSize = new System.Drawing.Size(924, 546);
+            this.Controls.Add(this.gameInfoTBox);
             this.Controls.Add(this.pictureBox8);
             this.Controls.Add(this.pictureBox7);
             this.Controls.Add(this.playerTwoLPLabel1);
@@ -519,6 +529,7 @@
         private System.Windows.Forms.Label playerTwoLPLabel1;
         private System.Windows.Forms.PictureBox pictureBox7;
         private System.Windows.Forms.PictureBox pictureBox8;
+        private System.Windows.Forms.TextBox gameInfoTBox;
     }
 }
 

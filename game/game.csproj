@@ -94,6 +94,12 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
+    <Reference Include="Apache.NMS">
+      <HintPath>F:\vs2015\Apache.NMS.dll</HintPath>
+    </Reference>
+    <Reference Include="Apache.NMS.ActiveMQ">
+      <HintPath>F:\vs2015\Apache.NMS.ActiveMQ.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -120,6 +126,7 @@
     <Compile Include="control\RegisterForm.Designer.cs">
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="dto\CustomListenDto.cs" />
     <Compile Include="dto\MonsterDto.cs" />
     <Compile Include="entity\Card.cs" />
     <Compile Include="entity\CardMonster.cs" />
@@ -143,13 +150,6 @@
     </Compile>
     <Compile Include="InitGameMonster.cs" />
     <Compile Include="MonsterEffect.cs" />
-    <Compile Include="monster\fourstar\SkyKnight.cs" />
-    <Compile Include="monster\fourstar\WuQiHao.cs" />
-    <Compile Include="monster\threestar\BlueEyes.cs" />
-    <Compile Include="monster\threestar\MagicTeacher.cs" />
-    <Compile Include="monster\threestar\YangShengYao.cs" />
-    <Compile Include="monster\threestar\YeQiPeng.cs" />
-    <Compile Include="monster\twostar\WaterMonster.cs" />
     <Compile Include="entity\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

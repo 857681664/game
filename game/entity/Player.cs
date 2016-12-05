@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace game.entity
@@ -6,8 +7,11 @@ namespace game.entity
     /// <summary>
     /// 玩家类
     /// </summary>
+    [Serializable]
     public class Player
     {
+        public string NickName { get; set; }
+
         public int LifePoint { get; set; }
 
         public bool HisTurn { get; set; }

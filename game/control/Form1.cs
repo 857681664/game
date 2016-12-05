@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Apache.NMS;
+using Apache.NMS.ActiveMQ;
+using Apache.NMS.ActiveMQ.Commands;
 using game.control;
 using game.dto;
 using game.entity;
 using game.@event;
-using game.monster.threestar;
 
 namespace game
 {
@@ -23,11 +25,18 @@ namespace game
         private GameLabel[,] gameLabels;//游戏的格子
         private Random random;
         private GameData gameData;
+        private IConnectionFactory factory;
+        private IConnection connection;
+        private ISession session;
+        private IMessageProducer producer;
         public Form1()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
             InitGameParam();
             InitGameLabel();
+            InitProducter();
+            InitCustom();
         }
         /// <summary>
         /// 初始化游戏的地图格子,i是列，j是行
@@ -74,6 +83,10 @@ namespace game
         /// </summary>
         public void InitGameParam()
         {
+            gameInfoTBox.Text = "";
+            factory = new ConnectionFactory("tcp://localhost:61616");
+            connection = factory.CreateConnection();
+            session = connection.CreateSession();
             gameData = new GameData();
             random = new Random();
             leftClickEventArgs = new LeftClickEventArgs(Const.LeftClickEnum.None);
@@ -163,6 +176,7 @@ namespace game
             e.LastGameLabel.Refresh();
             e.NowGameLabel.Refresh();
             MainPanelRefresh();
+            SendMessage(e, "move");
         }
         /// <summary>
         /// 计算怪兽移动所需要的步数
@@ -365,35 +379,37 @@ namespace game
         /// </summary>
         /// <param name="sender"></param>
         /// <returns></returns>
-        public bool CallMonster(GameLabel sender)
+        public bool CallMonster(MEAEventAgrs sender)
         {
             for (var i = 0; i < Const.LABEL_ROW; i++)
             {
                 for (var j = 0; j < Const.LABEL_COL; j++)
                 {
-                    if (sender.I + 1 <= 10 && sender.I - 1 >= 0 && sender.J + 1 <= 10 && sender.J - 1 >= 0)
+                    if (sender.LastGameLabel.I + 1 <= 10 && sender.LastGameLabel.I - 1 >= 0 && sender.LastGameLabel.J + 1 <= 10 && sender.LastGameLabel.J - 1 >= 0)
                     {
-                        if (gameLabels[sender.I, sender.J].Belongs == Const.PlayerBelongs.None &&
-                            (gameLabels[sender.I, sender.J + 1].Belongs == playerBelongs ||
-                             gameLabels[sender.I, sender.J - 1].Belongs == playerBelongs ||
-                             gameLabels[sender.I - 1, sender.J].Belongs == playerBelongs ||
-                             gameLabels[sender.I + 1, sender.J].Belongs == playerBelongs)) //如果点击的格子四周是己方的格子
+                        if (gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J].Belongs == Const.PlayerBelongs.None &&
+                            (gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J + 1].Belongs == playerBelongs ||
+                             gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J - 1].Belongs == playerBelongs ||
+                             gameLabels[sender.LastGameLabel.I - 1, sender.LastGameLabel.J].Belongs == playerBelongs ||
+                             gameLabels[sender.LastGameLabel.I + 1, sender.LastGameLabel.J].Belongs == playerBelongs)) //如果点击的格子四周是己方的格子
                         {
-                            sender.SetMonsterEventArgs(monsterEventArgs); //设置怪兽
+                            sender.LastGameLabel.SetMonsterEventArgs(monsterEventArgs); //设置怪兽
+                            sender.LastGameLabel.Monster = monsterEventArgs.Monster;
                             playerBelongs = monsterEventArgs.Player; //更改玩家所属                           
                             //把点击格子四周的所属修改，且刷新（无法覆盖属于敌方的格子）
-                            if(gameLabels[sender.I - 1, sender.J].Belongs == Const.PlayerBelongs.None)
-                                gameLabels[sender.I - 1, sender.J].Belongs = playerBelongs;
-                            if (gameLabels[sender.I + 1, sender.J].Belongs == Const.PlayerBelongs.None)
-                                gameLabels[sender.I + 1, sender.J].Belongs = playerBelongs;
-                            if (gameLabels[sender.I, sender.J - 1].Belongs == Const.PlayerBelongs.None)
-                                gameLabels[sender.I, sender.J - 1].Belongs = playerBelongs;
-                            if (gameLabels[sender.I, sender.J + 1].Belongs == Const.PlayerBelongs.None)
-                                gameLabels[sender.I, sender.J + 1].Belongs = playerBelongs;
-                            gameLabels[sender.I - 1, sender.J].Refresh();
-                            gameLabels[sender.I + 1, sender.J].Refresh();
-                            gameLabels[sender.I, sender.J - 1].Refresh();
-                            gameLabels[sender.I, sender.J + 1].Refresh();
+                            if(gameLabels[sender.LastGameLabel.I - 1, sender.LastGameLabel.J].Belongs == Const.PlayerBelongs.None)
+                                gameLabels[sender.LastGameLabel.I - 1, sender.LastGameLabel.J].Belongs = playerBelongs;
+                            if (gameLabels[sender.LastGameLabel.I + 1, sender.LastGameLabel.J].Belongs == Const.PlayerBelongs.None)
+                                gameLabels[sender.LastGameLabel.I + 1, sender.LastGameLabel.J].Belongs = playerBelongs;
+                            if (gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J - 1].Belongs == Const.PlayerBelongs.None)
+                                gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J - 1].Belongs = playerBelongs;
+                            if (gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J + 1].Belongs == Const.PlayerBelongs.None)
+                                gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J + 1].Belongs = playerBelongs;
+                            gameLabels[sender.LastGameLabel.I - 1, sender.LastGameLabel.J].Refresh();
+                            gameLabels[sender.LastGameLabel.I + 1, sender.LastGameLabel.J].Refresh();
+                            gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J - 1].Refresh();
+                            gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J + 1].Refresh();
+                            SendMessage(sender, "call");
                             return true;
                         }
                     }
@@ -468,6 +484,48 @@ namespace game
                     g.DrawRectangle(pen, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I, meaEventAgrs.LastGameLabel.J].I * 30, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I, meaEventAgrs.LastGameLabel.J].J * 30, 28, 28);
                 }
             }
+        }
+
+        private void InitProducter()
+        {
+            producer = session.CreateProducer(new ActiveMQQueue("game"));
+        }
+
+        public void SendMessage(MEAEventAgrs e, string eventKind)
+        {
+            CustomListenDto dto = new CustomListenDto();
+            IObjectMessage message = null;
+            if (eventKind.Equals("move"))
+            {
+                dto.PlayerOne = gameData.BelongDictionary[e.NowGameLabel.Monster.Belongs].NickName;
+                dto.MonsterOne = e.NowGameLabel.Monster.Name;
+                dto.EventKind = eventKind;
+            }
+            else if (eventKind.Equals("call"))
+            {
+                dto.PlayerOne = gameData.BelongDictionary[e.LastGameLabel.Monster.Belongs].NickName;
+                dto.MonsterOne = e.LastGameLabel.Monster.Name;
+                dto.EventKind = eventKind;
+            }
+            message = producer.CreateObjectMessage(dto);
+            producer.Send(message);
+        }
+
+        private void InitCustom()
+        {
+            connection.Start();
+            IMessageConsumer custom = session.CreateConsumer(new ActiveMQQueue("game"));
+            custom.Listener += CustomOnListener;
+        }
+
+        private void CustomOnListener(IMessage m)
+        {
+            IObjectMessage message = (IObjectMessage) m;
+            CustomListenDto dto = (CustomListenDto) message.Body;
+            if (dto.EventKind.Equals("move"))
+                gameInfoTBox.Text += dto.PlayerOne + "：" + dto.MonsterOne + "移动\r\n";
+            else if (dto.EventKind.Equals("call"))
+                gameInfoTBox.Text += dto.PlayerOne + "：" + dto.MonsterOne + "召唤\r\n";
         }
     }
 }
