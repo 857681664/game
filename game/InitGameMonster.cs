@@ -137,7 +137,7 @@ namespace game
         }
 
         /// <summary>
-        /// 反射实例化三星怪兽
+        /// 反射实例化三星和四星怪兽
         /// </summary>
         /// <param name="type"></param>
         /// <param name="dto"></param>

@@ -149,7 +149,6 @@
     <Compile Include="monster\threestar\MagicTeacher.cs" />
     <Compile Include="monster\threestar\YangShengYao.cs" />
     <Compile Include="monster\threestar\YeQiPeng.cs" />
-    <Compile Include="monster\twostar\StoneMonster.cs" />
     <Compile Include="monster\twostar\WaterMonster.cs" />
     <Compile Include="entity\Player.cs" />
     <Compile Include="Program.cs" />
