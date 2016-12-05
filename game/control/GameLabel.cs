@@ -137,7 +137,6 @@ namespace game.control
                     {
                         meaEventAgrs.NowGameLabel = this;
                         MoveMonsterEvent?.Invoke(meaEventAgrs);
-                        Monster.CanMove = false;
                         LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
                     }                    
                 }
@@ -187,15 +186,14 @@ namespace game.control
                     {
                         Monster.IsAttack = false;
                         LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
-                        MainPanelRefreshEvent?.Invoke();
                     }
                     else if (Monster != null && Monster.IsMove)
                     {
                         Monster.IsMove = false;
                         LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
-                        MainPanelRefreshEvent?.Invoke();
-                    }
                         
+                    }
+                    MainPanelRefreshEvent?.Invoke();
                 }
                 rightContextMenu = Const.CreateRightContentMenu();
                 moveMenuItem = Const.MoveMenuItem;

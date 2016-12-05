@@ -152,6 +152,7 @@ namespace game
         public void MoveMonster(MEAEventAgrs e)
         {
             int moveSum;
+            e.LastGameLabel.Monster.CanMove = false;
             e.NowGameLabel.Monster = e.LastGameLabel.Monster;
             e.NowGameLabel.HasMonster = true;
             e.LastGameLabel.HasMonster = false;
@@ -194,7 +195,6 @@ namespace game
                     gameData.PlayerTwo.CardLinkedList.Remove(e.NowGameLabel.Monster);
                     e.NowGameLabel.Monster = null;
                     e.NowGameLabel.HasMonster = false;
-                    e.NowGameLabel.Refresh();
                 }
                 else if (e.LastGameLabel.Monster.Attack < e.NowGameLabel.Monster.Attack)
                 {
@@ -202,7 +202,6 @@ namespace game
                     gameData.PlayerOne.CardLinkedList.Remove(e.LastGameLabel.Monster);
                     e.LastGameLabel.Monster = null;
                     e.LastGameLabel.HasMonster = false;
-                    e.LastGameLabel.Refresh();
                 }
                 else
                 {
@@ -214,11 +213,7 @@ namespace game
                     e.NowGameLabel.Monster = null;
                     e.LastGameLabel.HasMonster = false;
                     e.NowGameLabel.HasMonster = false;
-                    e.LastGameLabel.Refresh();
-                    e.NowGameLabel.Refresh();
                 }
-                e.LastGameLabel.Monster.IsAttack = false;
-                MainPanelRefresh();
             }
             else if (e.LastGameLabel.Monster.Belongs == Const.PlayerBelongs.PlayerTwo)
             {
@@ -228,7 +223,6 @@ namespace game
                     gameData.PlayerOne.CardLinkedList.Remove(e.NowGameLabel.Monster);
                     e.NowGameLabel.Monster = null;
                     e.NowGameLabel.HasMonster = false;
-                    e.NowGameLabel.Refresh();
                 }
                 else if (e.LastGameLabel.Monster.Attack < e.NowGameLabel.Monster.Attack)
                 {
@@ -236,7 +230,6 @@ namespace game
                     gameData.PlayerTwo.CardLinkedList.Remove(e.LastGameLabel.Monster);
                     e.NowGameLabel.Monster = null;
                     e.NowGameLabel.HasMonster = false;
-                    e.NowGameLabel.Refresh();
                 }
                 else
                 {
@@ -248,13 +241,15 @@ namespace game
                     e.NowGameLabel.Monster = null;
                     e.LastGameLabel.HasMonster = false;
                     e.NowGameLabel.HasMonster = false;
-                    e.LastGameLabel.Refresh();
-                    e.NowGameLabel.Refresh();
+                    
                 }
-                e.LastGameLabel.Monster.IsAttack = false;
-                MainPanelRefresh();
             }
-            
+            e.LastGameLabel.Monster.IsAttack = false;
+            e.LastGameLabel.Monster.CanAttack = false;
+            e.LastGameLabel.Monster.CanEffective = false;
+            MainPanelRefresh();
+            e.LastGameLabel.Refresh();
+            e.NowGameLabel.Refresh();
         }
         /// <summary>
         /// 发动怪兽效果，完成后刷新怪兽信息和印章数量

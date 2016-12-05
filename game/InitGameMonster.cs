@@ -158,8 +158,5 @@ namespace game
                 monster = (FourStarMonster)Activator.CreateInstance(type, objs);
             return monster;
         }
-
-        
-
     }
 }
