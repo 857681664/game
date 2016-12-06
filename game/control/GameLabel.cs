@@ -29,6 +29,7 @@ namespace game.control
         public delegate bool CallMonsterHandle(MEAEventAgrs e);
         public delegate void MoveMonsterHandle(MEAEventAgrs e);
         public delegate void AttackMonsterHandle(MEAEventAgrs e);
+        public delegate void SendMessageHandle(MEAEventAgrs e);
         public delegate void MainPanelRefreshHandle();
         
 
@@ -41,6 +42,8 @@ namespace game.control
         public event AttackMonsterHandle AttackMonsterEvent;//攻击怪兽
 
         public event UserEffectHandle UserEffectEvent;//发动效果事件
+
+        public event SendMessageHandle SendMessageEvent;//监听发动效果事件
 
         public event MainPanelRefreshHandle MainPanelRefreshEvent;//刷新怪兽的攻击范围显示
 
@@ -252,6 +255,7 @@ namespace game.control
                 object[] objects = { meaEventAgrs };
                 if (meaEventAgrs.LastGameLabel.Monster.EffectKind == Const.EffectKindEnum.NotPoint)
                 {
+                    SendMessageEvent?.Invoke(meaEventAgrs);
                     t.GetMethod("UserEffect").Invoke(meaEventAgrs.LastGameLabel.Monster, objects);
                     Monster.CanEffective = false;
                     Monster.CanAttack = false;

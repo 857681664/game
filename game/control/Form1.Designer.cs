@@ -63,7 +63,7 @@
             this.playerTwoLPLabel1 = new System.Windows.Forms.Label();
             this.pictureBox7 = new System.Windows.Forms.PictureBox();
             this.pictureBox8 = new System.Windows.Forms.PictureBox();
-            this.gameInfoTBox = new System.Windows.Forms.TextBox();
+            this.gameInfoTBox = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -90,7 +90,7 @@
             // 
             // mainPanel
             // 
-            this.mainPanel.Location = new System.Drawing.Point(263, 109);
+            this.mainPanel.Location = new System.Drawing.Point(235, 109);
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Size = new System.Drawing.Size(335, 306);
             this.mainPanel.TabIndex = 0;
@@ -99,7 +99,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(47, 416);
+            this.pictureBox1.Location = new System.Drawing.Point(19, 414);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(62, 63);
             this.pictureBox1.TabIndex = 1;
@@ -108,7 +108,7 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(121, 416);
+            this.pictureBox2.Location = new System.Drawing.Point(93, 414);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(61, 63);
             this.pictureBox2.TabIndex = 2;
@@ -117,7 +117,7 @@
             // pictureBox3
             // 
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(195, 416);
+            this.pictureBox3.Location = new System.Drawing.Point(167, 414);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(62, 63);
             this.pictureBox3.TabIndex = 3;
@@ -128,7 +128,7 @@
             this.labelMagic1.AutoSize = true;
             this.labelMagic1.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.labelMagic1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.labelMagic1.Location = new System.Drawing.Point(70, 494);
+            this.labelMagic1.Location = new System.Drawing.Point(40, 489);
             this.labelMagic1.Name = "labelMagic1";
             this.labelMagic1.Size = new System.Drawing.Size(19, 19);
             this.labelMagic1.TabIndex = 4;
@@ -139,7 +139,7 @@
             this.labelTrap1.AutoSize = true;
             this.labelTrap1.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.labelTrap1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.labelTrap1.Location = new System.Drawing.Point(145, 494);
+            this.labelTrap1.Location = new System.Drawing.Point(115, 489);
             this.labelTrap1.Name = "labelTrap1";
             this.labelTrap1.Size = new System.Drawing.Size(19, 19);
             this.labelTrap1.TabIndex = 5;
@@ -150,7 +150,7 @@
             this.labelMove1.AutoSize = true;
             this.labelMove1.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.labelMove1.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.labelMove1.Location = new System.Drawing.Point(220, 494);
+            this.labelMove1.Location = new System.Drawing.Point(190, 489);
             this.labelMove1.Name = "labelMove1";
             this.labelMove1.Size = new System.Drawing.Size(19, 19);
             this.labelMove1.TabIndex = 6;
@@ -159,7 +159,7 @@
             // pictureBox4
             // 
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(195, 12);
+            this.pictureBox4.Location = new System.Drawing.Point(167, 10);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(57, 63);
             this.pictureBox4.TabIndex = 6;
@@ -168,7 +168,7 @@
             // pictureBox5
             // 
             this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
-            this.pictureBox5.Location = new System.Drawing.Point(124, 12);
+            this.pictureBox5.Location = new System.Drawing.Point(96, 10);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(58, 63);
             this.pictureBox5.TabIndex = 5;
@@ -177,7 +177,7 @@
             // pictureBox6
             // 
             this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
-            this.pictureBox6.Location = new System.Drawing.Point(52, 12);
+            this.pictureBox6.Location = new System.Drawing.Point(24, 10);
             this.pictureBox6.Name = "pictureBox6";
             this.pictureBox6.Size = new System.Drawing.Size(57, 63);
             this.pictureBox6.TabIndex = 4;
@@ -188,7 +188,7 @@
             this.labelMove2.AutoSize = true;
             this.labelMove2.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.labelMove2.ForeColor = System.Drawing.Color.Red;
-            this.labelMove2.Location = new System.Drawing.Point(220, 78);
+            this.labelMove2.Location = new System.Drawing.Point(192, 76);
             this.labelMove2.Name = "labelMove2";
             this.labelMove2.Size = new System.Drawing.Size(19, 19);
             this.labelMove2.TabIndex = 9;
@@ -199,7 +199,7 @@
             this.labelTrap2.AutoSize = true;
             this.labelTrap2.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.labelTrap2.ForeColor = System.Drawing.Color.Red;
-            this.labelTrap2.Location = new System.Drawing.Point(145, 78);
+            this.labelTrap2.Location = new System.Drawing.Point(117, 76);
             this.labelTrap2.Name = "labelTrap2";
             this.labelTrap2.Size = new System.Drawing.Size(19, 19);
             this.labelTrap2.TabIndex = 8;
@@ -210,7 +210,7 @@
             this.labelMagic2.AutoSize = true;
             this.labelMagic2.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.labelMagic2.ForeColor = System.Drawing.Color.Red;
-            this.labelMagic2.Location = new System.Drawing.Point(70, 78);
+            this.labelMagic2.Location = new System.Drawing.Point(42, 76);
             this.labelMagic2.Name = "labelMagic2";
             this.labelMagic2.Size = new System.Drawing.Size(19, 19);
             this.labelMagic2.TabIndex = 7;
@@ -220,7 +220,7 @@
             // 
             this.playerOnePicBox.BackColor = System.Drawing.SystemColors.Control;
             this.playerOnePicBox.Image = ((System.Drawing.Image)(resources.GetObject("playerOnePicBox.Image")));
-            this.playerOnePicBox.Location = new System.Drawing.Point(400, 17);
+            this.playerOnePicBox.Location = new System.Drawing.Point(354, 17);
             this.playerOnePicBox.Name = "playerOnePicBox";
             this.playerOnePicBox.Size = new System.Drawing.Size(56, 58);
             this.playerOnePicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -230,7 +230,7 @@
             // playerTwoPicBox
             // 
             this.playerTwoPicBox.Image = ((System.Drawing.Image)(resources.GetObject("playerTwoPicBox.Image")));
-            this.playerTwoPicBox.Location = new System.Drawing.Point(400, 421);
+            this.playerTwoPicBox.Location = new System.Drawing.Point(354, 422);
             this.playerTwoPicBox.Name = "playerTwoPicBox";
             this.playerTwoPicBox.Size = new System.Drawing.Size(56, 58);
             this.playerTwoPicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -240,7 +240,7 @@
             // buttonStart
             // 
             this.buttonStart.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.buttonStart.Location = new System.Drawing.Point(604, 191);
+            this.buttonStart.Location = new System.Drawing.Point(662, 422);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(70, 44);
             this.buttonStart.TabIndex = 13;
@@ -251,7 +251,7 @@
             // moveOne
             // 
             this.moveOne.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.moveOne.Location = new System.Drawing.Point(191, 345);
+            this.moveOne.Location = new System.Drawing.Point(163, 343);
             this.moveOne.Name = "moveOne";
             this.moveOne.Size = new System.Drawing.Size(66, 63);
             this.moveOne.TabIndex = 14;
@@ -260,7 +260,7 @@
             // trapOne
             // 
             this.trapOne.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.trapOne.Location = new System.Drawing.Point(121, 345);
+            this.trapOne.Location = new System.Drawing.Point(93, 343);
             this.trapOne.Name = "trapOne";
             this.trapOne.Size = new System.Drawing.Size(61, 63);
             this.trapOne.TabIndex = 15;
@@ -269,7 +269,7 @@
             // magicOne
             // 
             this.magicOne.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.magicOne.Location = new System.Drawing.Point(47, 345);
+            this.magicOne.Location = new System.Drawing.Point(19, 343);
             this.magicOne.Name = "magicOne";
             this.magicOne.Size = new System.Drawing.Size(62, 63);
             this.magicOne.TabIndex = 16;
@@ -278,7 +278,7 @@
             // magicTwo
             // 
             this.magicTwo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.magicTwo.Location = new System.Drawing.Point(49, 109);
+            this.magicTwo.Location = new System.Drawing.Point(21, 107);
             this.magicTwo.Name = "magicTwo";
             this.magicTwo.Size = new System.Drawing.Size(60, 63);
             this.magicTwo.TabIndex = 19;
@@ -287,7 +287,7 @@
             // trapTwo
             // 
             this.trapTwo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.trapTwo.Location = new System.Drawing.Point(121, 109);
+            this.trapTwo.Location = new System.Drawing.Point(93, 107);
             this.trapTwo.Name = "trapTwo";
             this.trapTwo.Size = new System.Drawing.Size(58, 63);
             this.trapTwo.TabIndex = 18;
@@ -296,7 +296,7 @@
             // moveTwo
             // 
             this.moveTwo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.moveTwo.Location = new System.Drawing.Point(193, 109);
+            this.moveTwo.Location = new System.Drawing.Point(165, 107);
             this.moveTwo.Name = "moveTwo";
             this.moveTwo.Size = new System.Drawing.Size(64, 63);
             this.moveTwo.TabIndex = 17;
@@ -305,7 +305,7 @@
             // twoStarOne
             // 
             this.twoStarOne.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.twoStarOne.Location = new System.Drawing.Point(47, 276);
+            this.twoStarOne.Location = new System.Drawing.Point(19, 274);
             this.twoStarOne.Name = "twoStarOne";
             this.twoStarOne.Size = new System.Drawing.Size(62, 63);
             this.twoStarOne.TabIndex = 20;
@@ -314,7 +314,7 @@
             // threeStarOne
             // 
             this.threeStarOne.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.threeStarOne.Location = new System.Drawing.Point(121, 276);
+            this.threeStarOne.Location = new System.Drawing.Point(93, 274);
             this.threeStarOne.Name = "threeStarOne";
             this.threeStarOne.Size = new System.Drawing.Size(61, 63);
             this.threeStarOne.TabIndex = 21;
@@ -323,7 +323,7 @@
             // fourStarOne
             // 
             this.fourStarOne.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.fourStarOne.Location = new System.Drawing.Point(191, 276);
+            this.fourStarOne.Location = new System.Drawing.Point(163, 274);
             this.fourStarOne.Name = "fourStarOne";
             this.fourStarOne.Size = new System.Drawing.Size(66, 63);
             this.fourStarOne.TabIndex = 22;
@@ -332,7 +332,7 @@
             // twoStarTwo
             // 
             this.twoStarTwo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.twoStarTwo.Location = new System.Drawing.Point(49, 178);
+            this.twoStarTwo.Location = new System.Drawing.Point(21, 176);
             this.twoStarTwo.Name = "twoStarTwo";
             this.twoStarTwo.Size = new System.Drawing.Size(60, 63);
             this.twoStarTwo.TabIndex = 23;
@@ -341,7 +341,7 @@
             // threeStarTwo
             // 
             this.threeStarTwo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.threeStarTwo.Location = new System.Drawing.Point(120, 178);
+            this.threeStarTwo.Location = new System.Drawing.Point(92, 176);
             this.threeStarTwo.Name = "threeStarTwo";
             this.threeStarTwo.Size = new System.Drawing.Size(59, 63);
             this.threeStarTwo.TabIndex = 24;
@@ -350,7 +350,7 @@
             // fourStarTwo
             // 
             this.fourStarTwo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.fourStarTwo.Location = new System.Drawing.Point(193, 181);
+            this.fourStarTwo.Location = new System.Drawing.Point(165, 179);
             this.fourStarTwo.Name = "fourStarTwo";
             this.fourStarTwo.Size = new System.Drawing.Size(64, 63);
             this.fourStarTwo.TabIndex = 25;
@@ -360,7 +360,7 @@
             // 
             this.buttonEnd.Enabled = false;
             this.buttonEnd.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.buttonEnd.Location = new System.Drawing.Point(692, 191);
+            this.buttonEnd.Location = new System.Drawing.Point(738, 422);
             this.buttonEnd.Name = "buttonEnd";
             this.buttonEnd.Size = new System.Drawing.Size(69, 44);
             this.buttonEnd.TabIndex = 14;
@@ -370,18 +370,18 @@
             // 
             // monsterTextBox
             // 
-            this.monsterTextBox.Location = new System.Drawing.Point(604, 241);
+            this.monsterTextBox.Location = new System.Drawing.Point(876, 224);
             this.monsterTextBox.Multiline = true;
             this.monsterTextBox.Name = "monsterTextBox";
             this.monsterTextBox.ReadOnly = true;
-            this.monsterTextBox.Size = new System.Drawing.Size(157, 174);
+            this.monsterTextBox.Size = new System.Drawing.Size(157, 191);
             this.monsterTextBox.TabIndex = 27;
             // 
             // playerOneLPLabel2
             // 
             this.playerOneLPLabel2.AutoSize = true;
             this.playerOneLPLabel2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.playerOneLPLabel2.Location = new System.Drawing.Point(406, 78);
+            this.playerOneLPLabel2.Location = new System.Drawing.Point(370, 79);
             this.playerOneLPLabel2.Name = "playerOneLPLabel2";
             this.playerOneLPLabel2.Size = new System.Drawing.Size(40, 16);
             this.playerOneLPLabel2.TabIndex = 28;
@@ -391,7 +391,7 @@
             // 
             this.playerTwoLPLabel1.AutoSize = true;
             this.playerTwoLPLabel1.Font = new System.Drawing.Font("宋体", 12F);
-            this.playerTwoLPLabel1.Location = new System.Drawing.Point(406, 482);
+            this.playerTwoLPLabel1.Location = new System.Drawing.Point(370, 491);
             this.playerTwoLPLabel1.Name = "playerTwoLPLabel1";
             this.playerTwoLPLabel1.Size = new System.Drawing.Size(40, 16);
             this.playerTwoLPLabel1.TabIndex = 29;
@@ -400,7 +400,7 @@
             // pictureBox7
             // 
             this.pictureBox7.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureBox7.Location = new System.Drawing.Point(485, 36);
+            this.pictureBox7.Location = new System.Drawing.Point(427, 36);
             this.pictureBox7.Name = "pictureBox7";
             this.pictureBox7.Size = new System.Drawing.Size(19, 20);
             this.pictureBox7.TabIndex = 30;
@@ -409,7 +409,7 @@
             // pictureBox8
             // 
             this.pictureBox8.BackColor = System.Drawing.Color.Blue;
-            this.pictureBox8.Location = new System.Drawing.Point(485, 446);
+            this.pictureBox8.Location = new System.Drawing.Point(427, 446);
             this.pictureBox8.Name = "pictureBox8";
             this.pictureBox8.Size = new System.Drawing.Size(19, 20);
             this.pictureBox8.TabIndex = 31;
@@ -417,18 +417,19 @@
             // 
             // gameInfoTBox
             // 
-            this.gameInfoTBox.Location = new System.Drawing.Point(604, 29);
-            this.gameInfoTBox.Multiline = true;
+            this.gameInfoTBox.Location = new System.Drawing.Point(576, 37);
             this.gameInfoTBox.Name = "gameInfoTBox";
-            this.gameInfoTBox.Size = new System.Drawing.Size(308, 156);
-            this.gameInfoTBox.TabIndex = 32;
+            this.gameInfoTBox.Size = new System.Drawing.Size(294, 379);
+            this.gameInfoTBox.TabIndex = 33;
+            this.gameInfoTBox.Text = "";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(924, 546);
+            this.ClientSize = new System.Drawing.Size(1045, 526);
             this.Controls.Add(this.gameInfoTBox);
+            this.Controls.Add(this.buttonEnd);
             this.Controls.Add(this.pictureBox8);
             this.Controls.Add(this.pictureBox7);
             this.Controls.Add(this.playerTwoLPLabel1);
@@ -436,7 +437,6 @@
             this.Controls.Add(this.buttonStart);
             this.Controls.Add(this.monsterTextBox);
             this.Controls.Add(this.playerTwoPicBox);
-            this.Controls.Add(this.buttonEnd);
             this.Controls.Add(this.fourStarTwo);
             this.Controls.Add(this.threeStarTwo);
             this.Controls.Add(this.twoStarTwo);
@@ -529,7 +529,7 @@
         private System.Windows.Forms.Label playerTwoLPLabel1;
         private System.Windows.Forms.PictureBox pictureBox7;
         private System.Windows.Forms.PictureBox pictureBox8;
-        private System.Windows.Forms.TextBox gameInfoTBox;
+        private System.Windows.Forms.RichTextBox gameInfoTBox;
     }
 }
 

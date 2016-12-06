@@ -29,6 +29,7 @@ namespace game
         private IConnection connection;
         private ISession session;
         private IMessageProducer producer;
+        private CustomListenDto dto;
         public Form1()
         {
             InitializeComponent();
@@ -58,6 +59,7 @@ namespace game
                     gameLabels[i, j].MoveMonsterEvent += MoveMonster;
                     gameLabels[i, j].AttackMonsterEvent += AttackMonster;
                     gameLabels[i, j].UserEffectEvent += UserEffect;
+                    gameLabels[i, j].SendMessageEvent += NotPointMonsterSendMessage;
                     gameLabels[i, j].MainPanelRefreshEvent += MainPanelRefresh;
                     gameLabels[i, j].LeftClickEventArgs = leftClickEventArgs;
                     gameLabels[i,j].SetMEAEventArgs(meaEventAgrs);
@@ -91,20 +93,15 @@ namespace game
             random = new Random();
             leftClickEventArgs = new LeftClickEventArgs(Const.LeftClickEnum.None);
             meaEventAgrs = new MEAEventAgrs {Data = gameData};
+            dto = new CustomListenDto();
             foreach (Control c in Controls)
             {
                 if(c.GetType() == typeof(Label))
                 {
                     if (c.Name.EndsWith("1"))
-                    {
                         gameData.PlayerOne.LabelLinkedList.AddLast((Label) c);
-//                        c.Text = "0";
-                    }
                     else if (c.Name.EndsWith("2"))
-                    {
                         gameData.PlayerTwo.LabelLinkedList.AddLast((Label) c);
-//                        c.Text = "0";
-                    }
                 }
                 if (c.GetType() == typeof(PictureBox))
                 {
@@ -203,6 +200,7 @@ namespace game
         {
             if (e.LastGameLabel.Monster.Belongs == Const.PlayerBelongs.PlayerOne)
             {
+                SendMessage(e, "attack");
                 if (e.LastGameLabel.Monster.Attack > e.NowGameLabel.Monster.Attack)
                 {
                     gameData.PlayerTwo.DeathMonsters.AddLast(e.NowGameLabel.Monster);
@@ -231,6 +229,7 @@ namespace game
             }
             else if (e.LastGameLabel.Monster.Belongs == Const.PlayerBelongs.PlayerTwo)
             {
+                SendMessage(e, "attack");
                 if (e.LastGameLabel.Monster.Attack > e.NowGameLabel.Monster.Attack)
                 {
                     gameData.PlayerOne.DeathMonsters.AddLast(e.NowGameLabel.Monster);
@@ -258,6 +257,7 @@ namespace game
                     
                 }
             }
+            
             e.LastGameLabel.Monster.IsAttack = false;
             e.LastGameLabel.Monster.CanAttack = false;
             e.LastGameLabel.Monster.CanEffective = false;
@@ -278,6 +278,7 @@ namespace game
 //            Player player = gameData.BelongDictionary[e.LastGameLabel.Belongs];
             monsterTextBox.Text = e.NowGameLabel.Monster.ToString();
             e.LastGameLabel.LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
+            SendMessage(e, "pointEffect");
             //            //如果发动失败左键类型不变
             //            if (!IsEffect)
             //                e.LastGameLabel.LeftClickEventArgs.LeftClick = Const.LeftClickEnum.SelectMonster;
@@ -333,23 +334,14 @@ namespace game
             }
             //如果同样的星星印章数量 >= 2 则可以召唤对应的星级怪兽
             if (twoStarSum >= 2)
-            {
                 monster = CreateMonster(gameData.TwoStarMonsters,player);
-                monsterEventArgs = new MonsterEventArgs(gameData.PlayerDictionary[player],monster);
-                leftClickEventArgs.LeftClick = Const.LeftClickEnum.CallMonster;
-            }
             else if (threeStarSum >= 2)
-            {
                 monster = CreateMonster(gameData.ThreeStarMonsters, player);
-                monsterEventArgs = new MonsterEventArgs(gameData.PlayerDictionary[player], monster);
-                leftClickEventArgs.LeftClick = Const.LeftClickEnum.CallMonster;
-            }
             else if (fourStarSum >= 2)
-            {
                 monster = CreateMonster(gameData.FourStarMonsters, player);
-                monsterEventArgs = new MonsterEventArgs(gameData.PlayerDictionary[player], monster);
-                leftClickEventArgs.LeftClick = Const.LeftClickEnum.CallMonster;
-            }
+            monsterEventArgs = new MonsterEventArgs(gameData.PlayerDictionary[player], monster);
+            leftClickEventArgs.LeftClick = Const.LeftClickEnum.CallMonster;
+            if (monster != null) monster.Belongs = gameData.PlayerDictionary[player];
             player.LabelLinkedList.ElementAt(3).Text = player.MagicNumber.ToString();
             player.LabelLinkedList.ElementAt(2).Text = player.TrapNumber.ToString();
             player.LabelLinkedList.ElementAt(1).Text = player.MoveNumber.ToString();
@@ -485,16 +477,22 @@ namespace game
                 }
             }
         }
-
+        /// <summary>
+        /// 初始化消息队列生产者
+        /// </summary>
         private void InitProducter()
         {
             producer = session.CreateProducer(new ActiveMQQueue("game"));
         }
-
+        /// <summary>
+        /// 发送消息给消费者监听器，根据行动的种类发送不同种类的消息
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="eventKind"></param>
         public void SendMessage(MEAEventAgrs e, string eventKind)
         {
-            CustomListenDto dto = new CustomListenDto();
-            IObjectMessage message = null;
+            
+            IObjectMessage message;
             if (eventKind.Equals("move"))
             {
                 dto.PlayerOne = gameData.BelongDictionary[e.NowGameLabel.Monster.Belongs].NickName;
@@ -503,29 +501,81 @@ namespace game
             }
             else if (eventKind.Equals("call"))
             {
-                dto.PlayerOne = gameData.BelongDictionary[e.LastGameLabel.Monster.Belongs].NickName;
+                
                 dto.MonsterOne = e.LastGameLabel.Monster.Name;
+                dto.PlayerOne = gameData.BelongDictionary[e.LastGameLabel.Monster.Belongs].NickName;
+                dto.EventKind = eventKind;
+            }
+            else if (eventKind.Equals("attack"))
+            {
+                dto.MonsterOne = e.LastGameLabel.Monster.Name;
+                dto.MonsterTwo = e.NowGameLabel.Monster.Name;
+                dto.PlayerOne = gameData.BelongDictionary[e.LastGameLabel.Monster.Belongs].NickName;
+                dto.PlayerTwo = gameData.BelongDictionary[e.NowGameLabel.Monster.Belongs].NickName;
+                dto.EventKind = eventKind;
+            }
+            else
+            {
+                dto.MonsterOne = e.LastGameLabel.Monster.Name;
+                dto.MonsterTwo = e.NowGameLabel.Monster.Name;
+                dto.PlayerOne = gameData.BelongDictionary[e.LastGameLabel.Monster.Belongs].NickName;
+                dto.PlayerTwo = gameData.BelongDictionary[e.NowGameLabel.Monster.Belongs].NickName;
                 dto.EventKind = eventKind;
             }
             message = producer.CreateObjectMessage(dto);
             producer.Send(message);
         }
-
+        /// <summary>
+        /// 初始化消费者，并添加消息监听者
+        /// </summary>
         private void InitCustom()
         {
             connection.Start();
             IMessageConsumer custom = session.CreateConsumer(new ActiveMQQueue("game"));
             custom.Listener += CustomOnListener;
         }
-
+        /// <summary>
+        /// 消息监听者对监听消息的处理，根据当前玩家的回合改变当前消息的颜色
+        /// </summary>
+        /// <param name="m"></param>
         private void CustomOnListener(IMessage m)
         {
             IObjectMessage message = (IObjectMessage) m;
-            CustomListenDto dto = (CustomListenDto) message.Body;
+            dto = (CustomListenDto) message.Body;
+            string info = "";
             if (dto.EventKind.Equals("move"))
-                gameInfoTBox.Text += dto.PlayerOne + "：" + dto.MonsterOne + "移动\r\n";
+                info = dto.PlayerOne + "：" + dto.MonsterOne + "-> 移动\r\n";
             else if (dto.EventKind.Equals("call"))
-                gameInfoTBox.Text += dto.PlayerOne + "：" + dto.MonsterOne + "召唤\r\n";
+                info = dto.PlayerOne + "：" + dto.MonsterOne + "-> 召唤\r\n";
+            else if (dto.EventKind.Equals("attack"))
+                info = dto.PlayerOne + "：" + dto.MonsterOne + "-> 攻击" + "-> " + dto.PlayerTwo + "：" + dto.MonsterTwo + "\r\n";
+            else if (dto.EventKind.Equals("notPointEffect"))
+                info = dto.PlayerOne + "：" + dto.MonsterOne + "-> 发动效果\r\n";
+            else
+                info = dto.PlayerOne + "：" + dto.MonsterOne + "-> 发动效果" + "-> " + dto.PlayerTwo + "：" + dto.MonsterTwo + "\r\n";
+            if (gameData.PlayerOne.HisTurn)
+            {     
+                gameInfoTBox.SelectionColor = Color.Blue;
+                gameInfoTBox.SelectedText = info;
+            }
+            else if(gameData.PlayerTwo.HisTurn)
+            {
+                gameInfoTBox.SelectionColor = Color.Red;
+                gameInfoTBox.SelectedText = info;
+            }
+        }
+        /// <summary>
+        /// 非指向性怪兽发动时创建消息
+        /// </summary>
+        /// <param name="e"></param>
+        public void NotPointMonsterSendMessage(MEAEventAgrs e)
+        {
+            IObjectMessage message;
+            dto.PlayerOne = gameData.BelongDictionary[e.LastGameLabel.Monster.Belongs].NickName;
+            dto.MonsterOne = e.LastGameLabel.Monster.Name;
+            dto.EventKind = "notPointEffect";
+            message = producer.CreateObjectMessage(dto);
+            producer.Send(message);
         }
     }
 }

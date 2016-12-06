@@ -16,5 +16,6 @@ namespace game.dto
         public string MonsterTwo { get; set; }
         
         public string EventKind { get; set; }
+
     }
 }
