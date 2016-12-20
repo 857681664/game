@@ -96,7 +96,8 @@ namespace game.control
                 Image = Monster.MonsterImage;
                 g.DrawLine(!Monster.CanMove ? new Pen(Color.Green, 3) : new Pen(Color.FromArgb(240, 240, 240), 3),2, 0, 2, 3);
                 g.DrawLine(!Monster.CanAttack ? new Pen(Color.DarkRed, 3) : new Pen(Color.FromArgb(240, 240, 240), 3), 10, 0, 10, 3);
-                g.DrawLine(!Monster.CanEffective? new Pen(Color.BlueViolet, 3): new Pen(Color.FromArgb(240, 240, 240), 3), 20, 0, 20, 3);
+                g.DrawLine(!Monster.CanEffective ? new Pen(Color.BlueViolet, 3): new Pen(Color.FromArgb(240, 240, 240), 3), 20, 0, 20, 3);
+                g.DrawLine(Monster.IsEffected ? new Pen(Color.DarkBlue, 3): new Pen(Color.FromArgb(240, 240, 240), 3), 2, 20, 2, 25);
             }
             else
             {
@@ -131,6 +132,8 @@ namespace game.control
                         Belongs = monsterEventArgs.Player;
                         Monster.Belongs = Belongs;
                         LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
+                        if (Monster.EffectKind == Const.EffectKindEnum.AfterCall)
+                            meaEventAgrs.LastGameLabel = this;
                     }
                     else
                         LeftClickEventArgs.LeftClick = Const.LeftClickEnum.CallMonster;
@@ -259,7 +262,14 @@ namespace game.control
                     t.GetMethod("UserEffect").Invoke(meaEventAgrs.LastGameLabel.Monster, objects);
                     Monster.CanEffective = false;
                     Monster.CanAttack = false;
-                    Refresh();
+                    for (int i = 0; i < Const.LABEL_ROW; i++)
+                    {
+                        for (int j = 0; j < Const.LABEL_COL; j++)
+                        {
+                            if(meaEventAgrs.Data.GameLabels[i, j].HasMonster)
+                                meaEventAgrs.Data.GameLabels[i,j].Refresh();
+                        }
+                    }
                 }
                 else if (meaEventAgrs.LastGameLabel.Monster.EffectKind == Const.EffectKindEnum.Point)
                 {

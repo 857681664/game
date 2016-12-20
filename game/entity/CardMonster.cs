@@ -32,11 +32,17 @@ namespace game.entity
 
         public int Star { get; set; }
 
+        public int EffectTurn { get; set; }
+
+        public int EffectNumber { get; set; }
+
         public Const.PropEnum Prop { get; set; }
 
         public bool IsAttack { get; set; }
 
         public bool IsMove { get; set; }
+
+        public bool IsEffected { get; set; }
 
         public bool CanAttack { get; set; }
 
@@ -81,6 +87,5 @@ namespace game.entity
 //            return CanEffectEvent != null && CanEffectEvent.Invoke(e);
 //        }
 
-        
     }
 }

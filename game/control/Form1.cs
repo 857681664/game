@@ -145,16 +145,30 @@ namespace game
                 card.CanAttack = true;
                 card.CanMove = true;
                 card.CanEffective = true;
+                if (card.EffectTurn != 0)                
+                    card.EffectTurn--;
+                if (card.EffectTurn == 0)
+                {
+                    card.IsEffected = false;
+                    switch (card.PointKind)
+                    {
+                        case Const.PointKindEnum.DecreaseAttack:
+                            card.Attack += card.EffectNumber;
+                            break;
+                        case Const.PointKindEnum.IncreaseAttack:
+                            card.Attack -= card.EffectNumber;
+                            break;
+                    }
+                }
             }
             foreach (GameLabel label in gameLabels)
             {
-                if(label.HasMonster)
+                if (label.HasMonster)
                     label.Refresh();
             }
             WaveDice(player);
-            
         }
-        
+
         /// <summary>
         /// 移动怪兽，判断是否可以移动，再移动
         /// </summary>
@@ -175,6 +189,7 @@ namespace game
             MainPanelRefresh();
             SendMessage(e, "move");
         }
+
         /// <summary>
         /// 计算怪兽移动所需要的步数
         /// </summary>
@@ -182,16 +197,16 @@ namespace game
         /// <returns></returns>
         public int CalMoveSum(MEAEventAgrs e)
         {
-            int[,] maxtra = new int[Const.LABEL_ROW,Const.LABEL_COL];
+            int[,] maxtra = new int[Const.LABEL_ROW, Const.LABEL_COL];
             for (int i = 0; i < Const.LABEL_ROW; i++)
             {
-                for (int j = 0; j < Const.LABEL_COL;j++)
+                for (int j = 0; j < Const.LABEL_COL; j++)
                 {
-                    
                 }
             }
             return 0;
         }
+
         /// <summary>
         /// 怪兽攻击
         /// </summary>
@@ -254,10 +269,9 @@ namespace game
                     e.NowGameLabel.Monster = null;
                     e.LastGameLabel.HasMonster = false;
                     e.NowGameLabel.HasMonster = false;
-                    
                 }
             }
-            
+
             e.LastGameLabel.Monster.IsAttack = false;
             e.LastGameLabel.Monster.CanAttack = false;
             e.LastGameLabel.Monster.CanEffective = false;
@@ -265,20 +279,34 @@ namespace game
             e.LastGameLabel.Refresh();
             e.NowGameLabel.Refresh();
         }
+
         /// <summary>
         /// 发动怪兽效果，完成后刷新怪兽信息和印章数量
         /// </summary>
         /// <param name="e"></param>
         public bool UserEffect(MEAEventAgrs e)
         {
-//            bool IsEffect;
+            bool IsEffect;
             Type t = e.LastGameLabel.Monster.GetType();
-            object[] objects = { e };
-            t.GetMethod("UserEffect").Invoke(e.LastGameLabel.Monster, objects);
-//            Player player = gameData.BelongDictionary[e.LastGameLabel.Belongs];
-            monsterTextBox.Text = e.NowGameLabel.Monster.ToString();
-            e.LastGameLabel.LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
-            SendMessage(e, "pointEffect");
+            object[] objects = {e};
+            IsEffect = (bool) t.GetMethod("UserEffect").Invoke(e.LastGameLabel.Monster, objects);
+            if (!IsEffect)
+            {
+                MessageBox.Show("发动失败,条件没有满足或者选择怪兽已经有BUFF");
+                e.LastGameLabel.LeftClickEventArgs.LeftClick = Const.LeftClickEnum.SelectMonster;
+            }
+            else
+            {
+                e.LastGameLabel.Monster.CanAttack = false;
+                e.LastGameLabel.Monster.CanEffective = false;
+                e.LastGameLabel.Refresh();
+                e.NowGameLabel.Refresh();
+                if(e.NowGameLabel.HasMonster)
+                    monsterTextBox.Text = e.NowGameLabel.Monster.ToString();
+                e.LastGameLabel.LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
+                SendMessage(e, "pointEffect");
+            }
+
             //            //如果发动失败左键类型不变
             //            if (!IsEffect)
             //                e.LastGameLabel.LeftClickEventArgs.LeftClick = Const.LeftClickEnum.SelectMonster;
@@ -289,9 +317,10 @@ namespace game
 //            monsterTextBox.Text = e.NowGameLabel.Monster.ToString();
 //                e.LastGameLabel.LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
 //            }
-            
+
             return true;
         }
+
         /// <summary>
         /// 游戏开始掷骰子，并且召唤怪兽
         /// </summary>
@@ -330,11 +359,10 @@ namespace game
                         fourStarSum++;
                         break;
                 }
-                
             }
             //如果同样的星星印章数量 >= 2 则可以召唤对应的星级怪兽
             if (twoStarSum >= 2)
-                monster = CreateMonster(gameData.TwoStarMonsters,player);
+                monster = CreateMonster(gameData.TwoStarMonsters, player);
             else if (threeStarSum >= 2)
                 monster = CreateMonster(gameData.ThreeStarMonsters, player);
             else if (fourStarSum >= 2)
@@ -352,10 +380,10 @@ namespace game
         /// </summary>
         /// <param name="monsterList"></param>
         /// <returns></returns>
-        public CardMonster CreateMonster(List<CardMonster> monsterList,Player player)
+        public CardMonster CreateMonster(List<CardMonster> monsterList, Player player)
         {
             int index = random.Next(monsterList.Count);
-            CardMonster monster = (CardMonster)monsterList.ElementAt(index).Clone();
+            CardMonster monster = (CardMonster) monsterList.ElementAt(index).Clone();
             //第一回合召唤的怪兽无法执行指令
             monster.CanAttack = false;
             monster.CanMove = false;
@@ -379,17 +407,13 @@ namespace game
                 {
                     if (sender.LastGameLabel.I + 1 <= 10 && sender.LastGameLabel.I - 1 >= 0 && sender.LastGameLabel.J + 1 <= 10 && sender.LastGameLabel.J - 1 >= 0)
                     {
-                        if (gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J].Belongs == Const.PlayerBelongs.None &&
-                            (gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J + 1].Belongs == playerBelongs ||
-                             gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J - 1].Belongs == playerBelongs ||
-                             gameLabels[sender.LastGameLabel.I - 1, sender.LastGameLabel.J].Belongs == playerBelongs ||
-                             gameLabels[sender.LastGameLabel.I + 1, sender.LastGameLabel.J].Belongs == playerBelongs)) //如果点击的格子四周是己方的格子
+                        if (gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J].Belongs == Const.PlayerBelongs.None && (gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J + 1].Belongs == playerBelongs || gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J - 1].Belongs == playerBelongs || gameLabels[sender.LastGameLabel.I - 1, sender.LastGameLabel.J].Belongs == playerBelongs || gameLabels[sender.LastGameLabel.I + 1, sender.LastGameLabel.J].Belongs == playerBelongs)) //如果点击的格子四周是己方的格子
                         {
                             sender.LastGameLabel.SetMonsterEventArgs(monsterEventArgs); //设置怪兽
                             sender.LastGameLabel.Monster = monsterEventArgs.Monster;
                             playerBelongs = monsterEventArgs.Player; //更改玩家所属                           
                             //把点击格子四周的所属修改，且刷新（无法覆盖属于敌方的格子）
-                            if(gameLabels[sender.LastGameLabel.I - 1, sender.LastGameLabel.J].Belongs == Const.PlayerBelongs.None)
+                            if (gameLabels[sender.LastGameLabel.I - 1, sender.LastGameLabel.J].Belongs == Const.PlayerBelongs.None)
                                 gameLabels[sender.LastGameLabel.I - 1, sender.LastGameLabel.J].Belongs = playerBelongs;
                             if (gameLabels[sender.LastGameLabel.I + 1, sender.LastGameLabel.J].Belongs == Const.PlayerBelongs.None)
                                 gameLabels[sender.LastGameLabel.I + 1, sender.LastGameLabel.J].Belongs = playerBelongs;
@@ -402,6 +426,13 @@ namespace game
                             gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J - 1].Refresh();
                             gameLabels[sender.LastGameLabel.I, sender.LastGameLabel.J + 1].Refresh();
                             SendMessage(sender, "call");
+                            if (monsterEventArgs.Monster.EffectKind == Const.EffectKindEnum.AfterCall)
+                            {
+                                Type t = monsterEventArgs.Monster.GetType();
+                                object[] objects = { meaEventAgrs };
+                                t.GetMethod("UserEffect").Invoke(monsterEventArgs.Monster, objects);
+                                SendMessage(sender, "aftercall");
+                            }
                             return true;
                         }
                     }
@@ -410,6 +441,7 @@ namespace game
             MessageBox.Show("无法在此格子召唤怪兽，请重新点击", "提示");
             return false;
         }
+
         /// <summary>
         /// 显示怪兽信息
         /// </summary>
@@ -440,9 +472,9 @@ namespace game
             {
                 pictureBox7.BackColor = Color.FromArgb(240, 240, 240);
                 pictureBox8.BackColor = Color.Blue;
-            }   
-            
+            }
         }
+
         /// <summary>
         /// 当怪兽执行攻击指令时，高亮显示怪兽可以攻击的范围
         /// 当怪兽执行移动时，高亮显示当前执行指令的怪兽
@@ -452,8 +484,8 @@ namespace game
         private void mainPanel_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            Pen redPen = new Pen(Color.Red,4);
-            Pen bluePen = new Pen(Color.Blue,4);
+            Pen redPen = new Pen(Color.Red, 4);
+            Pen bluePen = new Pen(Color.Blue, 4);
             if (meaEventAgrs.LastGameLabel != null && meaEventAgrs.LastGameLabel.Monster != null)
             {
                 if (meaEventAgrs.LastGameLabel.Monster.IsAttack)
@@ -463,20 +495,21 @@ namespace game
                     {
                         for (int j = 0; j < Const.LABEL_COL; j++)
                         {
-                            g.DrawRectangle(pen, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I - 1, meaEventAgrs.LastGameLabel.J].I * 30, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I - 1, meaEventAgrs.LastGameLabel.J].J * 30, 28, 28);
-                            g.DrawRectangle(pen, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I + 1, meaEventAgrs.LastGameLabel.J].I * 30, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I + 1, meaEventAgrs.LastGameLabel.J].J * 30, 28, 28);
-                            g.DrawRectangle(pen, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I, meaEventAgrs.LastGameLabel.J - 1].I * 30, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I, meaEventAgrs.LastGameLabel.J - 1].J * 30, 28, 28);
-                            g.DrawRectangle(pen, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I, meaEventAgrs.LastGameLabel.J + 1].I * 30, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I, meaEventAgrs.LastGameLabel.J + 1].J * 30, 28, 28);
+                            g.DrawRectangle(pen, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I - 1, meaEventAgrs.LastGameLabel.J].I*30, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I - 1, meaEventAgrs.LastGameLabel.J].J*30, 28, 28);
+                            g.DrawRectangle(pen, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I + 1, meaEventAgrs.LastGameLabel.J].I*30, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I + 1, meaEventAgrs.LastGameLabel.J].J*30, 28, 28);
+                            g.DrawRectangle(pen, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I, meaEventAgrs.LastGameLabel.J - 1].I*30, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I, meaEventAgrs.LastGameLabel.J - 1].J*30, 28, 28);
+                            g.DrawRectangle(pen, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I, meaEventAgrs.LastGameLabel.J + 1].I*30, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I, meaEventAgrs.LastGameLabel.J + 1].J*30, 28, 28);
                         }
                     }
                 }
                 else if (meaEventAgrs.LastGameLabel.Monster.IsMove)
                 {
                     Pen pen = gameData.PlayerOne.HisTurn ? redPen : bluePen;
-                    g.DrawRectangle(pen, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I, meaEventAgrs.LastGameLabel.J].I * 30, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I, meaEventAgrs.LastGameLabel.J].J * 30, 28, 28);
+                    g.DrawRectangle(pen, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I, meaEventAgrs.LastGameLabel.J].I*30, meaEventAgrs.Data.GameLabels[meaEventAgrs.LastGameLabel.I, meaEventAgrs.LastGameLabel.J].J*30, 28, 28);
                 }
             }
         }
+
         /// <summary>
         /// 初始化消息队列生产者
         /// </summary>
@@ -484,6 +517,7 @@ namespace game
         {
             producer = session.CreateProducer(new ActiveMQQueue("game"));
         }
+
         /// <summary>
         /// 发送消息给消费者监听器，根据行动的种类发送不同种类的消息
         /// </summary>
@@ -491,7 +525,6 @@ namespace game
         /// <param name="eventKind"></param>
         public void SendMessage(MEAEventAgrs e, string eventKind)
         {
-            
             IObjectMessage message;
             if (eventKind.Equals("move"))
             {
@@ -501,7 +534,6 @@ namespace game
             }
             else if (eventKind.Equals("call"))
             {
-                
                 dto.MonsterOne = e.LastGameLabel.Monster.Name;
                 dto.PlayerOne = gameData.BelongDictionary[e.LastGameLabel.Monster.Belongs].NickName;
                 dto.EventKind = eventKind;
@@ -514,17 +546,36 @@ namespace game
                 dto.PlayerTwo = gameData.BelongDictionary[e.NowGameLabel.Monster.Belongs].NickName;
                 dto.EventKind = eventKind;
             }
-            else
+            else if (eventKind.Equals("aftercall"))
             {
                 dto.MonsterOne = e.LastGameLabel.Monster.Name;
-                dto.MonsterTwo = e.NowGameLabel.Monster.Name;
                 dto.PlayerOne = gameData.BelongDictionary[e.LastGameLabel.Monster.Belongs].NickName;
-                dto.PlayerTwo = gameData.BelongDictionary[e.NowGameLabel.Monster.Belongs].NickName;
+                dto.EventKind = eventKind;
+            }
+            else
+            {
+                //如果是kill效果dto的第二个名字要从墓地中获取
+                if (e.LastGameLabel.Monster.PointKind == Const.PointKindEnum.KillMonster)
+                {
+                    Player player = e.LastGameLabel.Monster.Belongs == Const.PlayerBelongs.PlayerOne
+                        ? gameData.PlayerTwo
+                        : gameData.PlayerOne;
+                    dto.MonsterTwo = player.DeathMonsters.ElementAt(player.DeathMonsters.Count - 1).Name;
+                    dto.PlayerTwo = player.NickName;
+                }
+                else
+                {
+                    dto.MonsterTwo = e.NowGameLabel.Monster.Name;
+                    dto.PlayerTwo = gameData.BelongDictionary[e.NowGameLabel.Monster.Belongs].NickName;
+                }
+                dto.MonsterOne = e.LastGameLabel.Monster.Name;
+                dto.PlayerOne = gameData.BelongDictionary[e.LastGameLabel.Monster.Belongs].NickName;
                 dto.EventKind = eventKind;
             }
             message = producer.CreateObjectMessage(dto);
             producer.Send(message);
         }
+
         /// <summary>
         /// 初始化消费者，并添加消息监听者
         /// </summary>
@@ -534,6 +585,7 @@ namespace game
             IMessageConsumer custom = session.CreateConsumer(new ActiveMQQueue("game"));
             custom.Listener += CustomOnListener;
         }
+
         /// <summary>
         /// 消息监听者对监听消息的处理，根据当前玩家的回合改变当前消息的颜色
         /// </summary>
@@ -549,21 +601,22 @@ namespace game
                 info = dto.PlayerOne + "：" + dto.MonsterOne + "-> 召唤\r\n";
             else if (dto.EventKind.Equals("attack"))
                 info = dto.PlayerOne + "：" + dto.MonsterOne + "-> 攻击" + "-> " + dto.PlayerTwo + "：" + dto.MonsterTwo + "\r\n";
-            else if (dto.EventKind.Equals("notPointEffect"))
+            else if (dto.EventKind.Equals("notPointEffect") || dto.EventKind.Equals("aftercall"))
                 info = dto.PlayerOne + "：" + dto.MonsterOne + "-> 发动效果\r\n";
             else
                 info = dto.PlayerOne + "：" + dto.MonsterOne + "-> 发动效果" + "-> " + dto.PlayerTwo + "：" + dto.MonsterTwo + "\r\n";
             if (gameData.PlayerOne.HisTurn)
-            {     
+            {
                 gameInfoTBox.SelectionColor = Color.Blue;
                 gameInfoTBox.SelectedText = info;
             }
-            else if(gameData.PlayerTwo.HisTurn)
+            else if (gameData.PlayerTwo.HisTurn)
             {
                 gameInfoTBox.SelectionColor = Color.Red;
                 gameInfoTBox.SelectedText = info;
             }
         }
+
         /// <summary>
         /// 非指向性怪兽发动时创建消息
         /// </summary>

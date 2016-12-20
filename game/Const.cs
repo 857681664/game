@@ -37,10 +37,10 @@ namespace game
         public enum PlayerBelongs { PlayerOne, PlayerTwo, None }
 
         //效果类别：指向和非指向
-        public enum EffectKindEnum { Point ,NotPoint }
+        public enum EffectKindEnum { Point ,NotPoint, AfterCall }
 
         //效果类别：加攻击，减攻击，消灭随从，复活
-        public enum PointKindEnum { IncreaseAttack, DecreaseAttack, KillMonster, ReCall, DecreaseLifePoint }
+        public enum PointKindEnum { IncreaseAttack, DecreaseAttack, KillMonster, ReCall, DecreaseLifePoint, Controll, IncreaseLifePoint }
 
 
         //怪兽卡对应属性名

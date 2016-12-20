@@ -13,7 +13,7 @@ namespace game.control
     public partial class LoginForm : Form
     {
         private readonly SqlOperate operate;
-        private RegisterForm form = null;
+        private RegisterForm form;
         private Form1 mainForm;
         public LoginForm()
         {
