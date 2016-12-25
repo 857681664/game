@@ -12,7 +12,7 @@ namespace game.control
 {
     public partial class RegisterForm : Form
     {
-        private readonly SqlOperate operate;
+        private SqlOperate operate;
         public RegisterForm()
         {
             InitializeComponent();
@@ -25,6 +25,7 @@ namespace game.control
             string password = passwordTBox.Text;
             operate.RegisterUser(userName,password);
             MessageBox.Show("注册成功");
+            operate = null;
             Close();
         }
     }

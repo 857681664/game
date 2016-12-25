@@ -30,6 +30,7 @@ namespace game
         private ISession session;
         private IMessageProducer producer;
         private CustomListenDto dto;
+        private SqlOperate sqlOperate;
         public Form1()
         {
             InitializeComponent();
@@ -94,6 +95,10 @@ namespace game
             leftClickEventArgs = new LeftClickEventArgs(Const.LeftClickEnum.None);
             meaEventAgrs = new MEAEventAgrs {Data = gameData};
             dto = new CustomListenDto();
+            sqlOperate = new SqlOperate();
+            int nowLength = gameData.TwoStarMonsters.Count + gameData.ThreeStarMonsters.Count +
+                            gameData.FourStarMonsters.Count;
+            sqlOperate.FillMonsterTable(gameData.TwoStarMonsters, gameData.ThreeStarMonsters, gameData.FourStarMonsters, nowLength);
             foreach (Control c in Controls)
             {
                 if(c.GetType() == typeof(Label))
@@ -122,11 +127,13 @@ namespace game
             if (gameData.PlayerOne.HisTurn)
             {
                 playerBelongs = Const.PlayerBelongs.PlayerOne;
+                Const.Turn = Const.PlayerTurn.TurnOne;
                 TurnStart(gameData.PlayerOne);
             }
             else if (gameData.PlayerTwo.HisTurn)
             {
                 playerBelongs = Const.PlayerBelongs.PlayerTwo;
+                Const.Turn = Const.PlayerTurn.TurnTwo;
                 TurnStart(gameData.PlayerTwo);
             }
             buttonStart.Enabled = false;
@@ -173,21 +180,32 @@ namespace game
         /// 移动怪兽，判断是否可以移动，再移动
         /// </summary>
         /// <param name="e"></param>
-        public void MoveMonster(MEAEventAgrs e)
+        public bool MoveMonster(MEAEventAgrs e)
         {
             int moveSum;
-            e.LastGameLabel.Monster.CanMove = false;
-            e.NowGameLabel.Monster = e.LastGameLabel.Monster;
-            e.NowGameLabel.HasMonster = true;
-            e.LastGameLabel.HasMonster = false;
-            e.LastGameLabel.Monster.IsMove = false;
-            e.LastGameLabel.Monster = null;
-            //moveSum = CalMoveSum(e);
-            //moveSumLabel.Text = moveSum.ToString();
+            Player player = gameData.BelongDictionary[e.LastGameLabel.Belongs];
+            moveSum = CalMoveSum(e);
+            if (moveSum == 0)
+                MessageBox.Show("无法到达");
+            else if (player.MoveNumber < moveSum)
+                MessageBox.Show("移动印章不足，无法移动");
+            else
+            {
+                
+                player.MoveNumber -= moveSum;
+                player.LabelLinkedList.ElementAt(1).Text = player.MoveNumber.ToString();
+                e.LastGameLabel.Monster.CanMove = false;
+                e.NowGameLabel.Monster = e.LastGameLabel.Monster;
+                e.NowGameLabel.HasMonster = true;
+                e.LastGameLabel.HasMonster = false;
+                e.LastGameLabel.Monster = null;
+                SendMessage(e, "move");
+            }
+            if (e.LastGameLabel.Monster != null) e.LastGameLabel.Monster.IsMove = false;
             e.LastGameLabel.Refresh();
             e.NowGameLabel.Refresh();
-            MainPanelRefresh();
-            SendMessage(e, "move");
+            e.LastGameLabel.MyRefresh();
+            return true;
         }
 
         /// <summary>
@@ -197,14 +215,27 @@ namespace game
         /// <returns></returns>
         public int CalMoveSum(MEAEventAgrs e)
         {
-            int[,] maxtra = new int[Const.LABEL_ROW, Const.LABEL_COL];
+            int[,] matrix = new int[Const.LABEL_COL, Const.LABEL_ROW];
             for (int i = 0; i < Const.LABEL_ROW; i++)
             {
                 for (int j = 0; j < Const.LABEL_COL; j++)
                 {
+//                    matrix[j, i] = 0;
+                    if (gameData.PlayerOne.HisTurn)
+                    {
+                        if (gameLabels[i, j].HasMonster && gameLabels[i, j].Monster.Belongs == Const.PlayerBelongs.PlayerTwo)
+                            matrix[j, i] = 1;
+                    }
+                    else
+                    {
+                        if (gameLabels[i, j].HasMonster && gameLabels[i, j].Monster.Belongs == Const.PlayerBelongs.PlayerOne)
+                            matrix[j, i] = 1;
+                    }
                 }
             }
-            return 0;
+            int stepSum = CalMinimumStep.MiniMumStep(matrix, e.LastGameLabel.I, e.LastGameLabel.J, e.NowGameLabel.I,
+                e.NowGameLabel.J);
+            return stepSum;
         }
 
         /// <summary>
@@ -215,66 +246,90 @@ namespace game
         {
             if (e.LastGameLabel.Monster.Belongs == Const.PlayerBelongs.PlayerOne)
             {
-                SendMessage(e, "attack");
-                if (e.LastGameLabel.Monster.Attack > e.NowGameLabel.Monster.Attack)
+                if (e.NowGameLabel.I == 5 && e.NowGameLabel.J == 0)
                 {
-                    gameData.PlayerTwo.DeathMonsters.AddLast(e.NowGameLabel.Monster);
-                    gameData.PlayerTwo.CardLinkedList.Remove(e.NowGameLabel.Monster);
-                    e.NowGameLabel.Monster = null;
-                    e.NowGameLabel.HasMonster = false;
-                }
-                else if (e.LastGameLabel.Monster.Attack < e.NowGameLabel.Monster.Attack)
-                {
-                    gameData.PlayerOne.DeathMonsters.AddLast(e.LastGameLabel.Monster);
-                    gameData.PlayerOne.CardLinkedList.Remove(e.LastGameLabel.Monster);
-                    e.LastGameLabel.Monster = null;
-                    e.LastGameLabel.HasMonster = false;
+                    e.Data.PlayerTwo.LifePoint -= e.LastGameLabel.Monster.Attack;
+                    playerTwoLPLabel2.Text = e.Data.PlayerTwo.LifePoint.ToString();
+                    SendMessage(e, "attackPlayer");
                 }
                 else
                 {
-                    gameData.PlayerOne.DeathMonsters.AddLast(e.NowGameLabel.Monster);
-                    gameData.PlayerTwo.DeathMonsters.AddLast(e.LastGameLabel.Monster);
-                    gameData.PlayerTwo.CardLinkedList.Remove(e.NowGameLabel.Monster);
-                    gameData.PlayerOne.CardLinkedList.Remove(e.LastGameLabel.Monster);
-                    e.LastGameLabel.Monster = null;
-                    e.NowGameLabel.Monster = null;
-                    e.LastGameLabel.HasMonster = false;
-                    e.NowGameLabel.HasMonster = false;
+                    SendMessage(e, "attack");
+                    if (e.LastGameLabel.Monster.Attack > e.NowGameLabel.Monster.Attack)
+                    {
+                        gameData.PlayerTwo.DeathMonsters.AddLast(e.NowGameLabel.Monster);
+                        gameData.PlayerTwo.CardLinkedList.Remove(e.NowGameLabel.Monster);
+                        e.NowGameLabel.Monster = null;
+                        e.NowGameLabel.HasMonster = false;
+                    }
+                    else if (e.LastGameLabel.Monster.Attack < e.NowGameLabel.Monster.Attack)
+                    {
+                        gameData.PlayerOne.DeathMonsters.AddLast(e.LastGameLabel.Monster);
+                        gameData.PlayerOne.CardLinkedList.Remove(e.LastGameLabel.Monster);
+                        e.LastGameLabel.Monster = null;
+                        e.LastGameLabel.HasMonster = false;
+                    }
+                    else
+                    {
+                        gameData.PlayerOne.DeathMonsters.AddLast(e.NowGameLabel.Monster);
+                        gameData.PlayerTwo.DeathMonsters.AddLast(e.LastGameLabel.Monster);
+                        gameData.PlayerTwo.CardLinkedList.Remove(e.NowGameLabel.Monster);
+                        gameData.PlayerOne.CardLinkedList.Remove(e.LastGameLabel.Monster);
+                        e.LastGameLabel.Monster = null;
+                        e.NowGameLabel.Monster = null;
+                        e.LastGameLabel.HasMonster = false;
+                        e.NowGameLabel.HasMonster = false;
+                    }
                 }
+                
             }
             else if (e.LastGameLabel.Monster.Belongs == Const.PlayerBelongs.PlayerTwo)
             {
-                SendMessage(e, "attack");
-                if (e.LastGameLabel.Monster.Attack > e.NowGameLabel.Monster.Attack)
+                if (e.NowGameLabel.I == 5 && e.NowGameLabel.J == 9)
                 {
-                    gameData.PlayerOne.DeathMonsters.AddLast(e.NowGameLabel.Monster);
-                    gameData.PlayerOne.CardLinkedList.Remove(e.NowGameLabel.Monster);
-                    e.NowGameLabel.Monster = null;
-                    e.NowGameLabel.HasMonster = false;
-                }
-                else if (e.LastGameLabel.Monster.Attack < e.NowGameLabel.Monster.Attack)
-                {
-                    gameData.PlayerTwo.DeathMonsters.AddLast(e.LastGameLabel.Monster);
-                    gameData.PlayerTwo.CardLinkedList.Remove(e.LastGameLabel.Monster);
-                    e.NowGameLabel.Monster = null;
-                    e.NowGameLabel.HasMonster = false;
+                    e.Data.PlayerTwo.LifePoint -= e.LastGameLabel.Monster.Attack;
+                    playerOneLPLabel1.Text = e.Data.PlayerTwo.LifePoint.ToString();
+                    SendMessage(e, "attackPlayer");
                 }
                 else
                 {
-                    gameData.PlayerTwo.DeathMonsters.AddLast(e.NowGameLabel.Monster);
-                    gameData.PlayerOne.DeathMonsters.AddLast(e.LastGameLabel.Monster);
-                    gameData.PlayerTwo.CardLinkedList.Remove(e.NowGameLabel.Monster);
-                    gameData.PlayerOne.CardLinkedList.Remove(e.LastGameLabel.Monster);
-                    e.LastGameLabel.Monster = null;
-                    e.NowGameLabel.Monster = null;
-                    e.LastGameLabel.HasMonster = false;
-                    e.NowGameLabel.HasMonster = false;
+                    SendMessage(e, "attack");
+                    if (e.LastGameLabel.Monster.Attack > e.NowGameLabel.Monster.Attack)
+                    {
+                        gameData.PlayerOne.DeathMonsters.AddLast(e.NowGameLabel.Monster);
+                        gameData.PlayerOne.CardLinkedList.Remove(e.NowGameLabel.Monster);
+                        e.NowGameLabel.Monster = null;
+                        e.NowGameLabel.HasMonster = false;
+                    }
+                    else if (e.LastGameLabel.Monster.Attack < e.NowGameLabel.Monster.Attack)
+                    {
+                        gameData.PlayerTwo.DeathMonsters.AddLast(e.LastGameLabel.Monster);
+                        gameData.PlayerTwo.CardLinkedList.Remove(e.LastGameLabel.Monster);
+                        e.NowGameLabel.Monster = null;
+                        e.NowGameLabel.HasMonster = false;
+                    }
+                    else
+                    {
+                        gameData.PlayerTwo.DeathMonsters.AddLast(e.NowGameLabel.Monster);
+                        gameData.PlayerOne.DeathMonsters.AddLast(e.LastGameLabel.Monster);
+                        gameData.PlayerTwo.CardLinkedList.Remove(e.NowGameLabel.Monster);
+                        gameData.PlayerOne.CardLinkedList.Remove(e.LastGameLabel.Monster);
+                        e.LastGameLabel.Monster = null;
+                        e.NowGameLabel.Monster = null;
+                        e.LastGameLabel.HasMonster = false;
+                        e.NowGameLabel.HasMonster = false;
+                    }
                 }
+                
             }
 
-            e.LastGameLabel.Monster.IsAttack = false;
-            e.LastGameLabel.Monster.CanAttack = false;
-            e.LastGameLabel.Monster.CanEffective = false;
+            if (e.LastGameLabel.Monster != null)
+            {
+                e.LastGameLabel.Monster.IsAttack = false;
+                e.LastGameLabel.Monster.IsMove = false;
+                e.LastGameLabel.Monster.CanAttack = false;
+                e.LastGameLabel.Monster.CanEffective = false;
+            }
             MainPanelRefresh();
             e.LastGameLabel.Refresh();
             e.NowGameLabel.Refresh();
@@ -552,6 +607,14 @@ namespace game
                 dto.PlayerOne = gameData.BelongDictionary[e.LastGameLabel.Monster.Belongs].NickName;
                 dto.EventKind = eventKind;
             }
+            else if (eventKind.Equals("attackPlayer"))
+            {
+                dto.MonsterOne = e.LastGameLabel.Monster.Name;
+                dto.Attack = e.LastGameLabel.Monster.Attack;
+                dto.PlayerOne = gameData.BelongDictionary[e.LastGameLabel.Monster.Belongs].NickName;
+                dto.PlayerTwo = gameData.BelongDictionary[e.NowGameLabel.Belongs].NickName;
+                dto.EventKind = eventKind;
+            }
             else
             {
                 //如果是kill效果dto的第二个名字要从墓地中获取
@@ -594,7 +657,7 @@ namespace game
         {
             IObjectMessage message = (IObjectMessage) m;
             dto = (CustomListenDto) message.Body;
-            string info = "";
+            string info;
             if (dto.EventKind.Equals("move"))
                 info = dto.PlayerOne + "：" + dto.MonsterOne + "-> 移动\r\n";
             else if (dto.EventKind.Equals("call"))
@@ -603,6 +666,8 @@ namespace game
                 info = dto.PlayerOne + "：" + dto.MonsterOne + "-> 攻击" + "-> " + dto.PlayerTwo + "：" + dto.MonsterTwo + "\r\n";
             else if (dto.EventKind.Equals("notPointEffect") || dto.EventKind.Equals("aftercall"))
                 info = dto.PlayerOne + "：" + dto.MonsterOne + "-> 发动效果\r\n";
+            else if (dto.EventKind.Equals("attackPlayer"))
+                info = dto.PlayerOne + "：" + dto.MonsterOne + "->对" + dto.PlayerTwo + "造成了" + dto.Attack + "点伤害";
             else
                 info = dto.PlayerOne + "：" + dto.MonsterOne + "-> 发动效果" + "-> " + dto.PlayerTwo + "：" + dto.MonsterTwo + "\r\n";
             if (gameData.PlayerOne.HisTurn)
@@ -629,6 +694,13 @@ namespace game
             dto.EventKind = "notPointEffect";
             message = producer.CreateObjectMessage(dto);
             producer.Send(message);
+        }
+
+        private void 查看全部ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            MonsterList form = new MonsterList(gameData);
+            form.Show();
         }
     }
 }

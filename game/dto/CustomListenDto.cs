@@ -17,5 +17,7 @@ namespace game.dto
         
         public string EventKind { get; set; }
 
+        public int Attack { get; set; }
+
     }
 }

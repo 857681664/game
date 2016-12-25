@@ -27,7 +27,7 @@ namespace game.control
         public delegate bool UserEffectHandle(MEAEventAgrs e);
         public delegate void ShowMonsterHandle(CardMonster monster);
         public delegate bool CallMonsterHandle(MEAEventAgrs e);
-        public delegate void MoveMonsterHandle(MEAEventAgrs e);
+        public delegate bool MoveMonsterHandle(MEAEventAgrs e);
         public delegate void AttackMonsterHandle(MEAEventAgrs e);
         public delegate void SendMessageHandle(MEAEventAgrs e);
         public delegate void MainPanelRefreshHandle();
@@ -145,6 +145,11 @@ namespace game.control
                         MessageBox.Show("无法移动至该格子，请重新点击");
                         LeftClickEventArgs.LeftClick = Const.LeftClickEnum.MoveMonster;
                     }
+                    else if (HasMonster)
+                    {
+                        MessageBox.Show("格子上有怪兽，无法移动");
+                        LeftClickEventArgs.LeftClick = Const.LeftClickEnum.MoveMonster;
+                    }
                     else
                     {
                         meaEventAgrs.NowGameLabel = this;
@@ -155,23 +160,20 @@ namespace game.control
                 else if (LeftClickEventArgs.LeftClick == Const.LeftClickEnum.AttackMonster)
                 {
                     meaEventAgrs.NowGameLabel = this;
-                    if (HasMonster && meaEventAgrs.LastGameLabel.Monster.Belongs == meaEventAgrs.NowGameLabel.Monster.Belongs)
+                    if ((meaEventAgrs.NowGameLabel.I == 5 && meaEventAgrs.NowGameLabel.J == 0) ||
+                        (meaEventAgrs.NowGameLabel.I == 5 && meaEventAgrs.NowGameLabel.J == 9))
                     {
-                        MessageBox.Show("请选择敌方怪兽", "提示");
-                        LeftClickEventArgs.LeftClick = Const.LeftClickEnum.AttackMonster;
-                    }
-                    else if (!meaEventAgrs.NowGameLabel.HasMonster)
-                    {
-                        MessageBox.Show("请点击有怪兽的格子", "提示");
-                        LeftClickEventArgs.LeftClick = Const.LeftClickEnum.AttackMonster;
-                    }
-                    else
-                    {
-                        if (Math.Abs(meaEventAgrs.LastGameLabel.I - meaEventAgrs.NowGameLabel.I) != 1 &&
-                            Math.Abs(meaEventAgrs.LastGameLabel.J - meaEventAgrs.NowGameLabel.J) != 1)
+                        if (meaEventAgrs.NowGameLabel.I == 5 && meaEventAgrs.NowGameLabel.J == 0 &&
+                            meaEventAgrs.LastGameLabel.Monster.Belongs == Const.PlayerBelongs.PlayerTwo)
                         {
-                            MessageBox.Show("不在攻击范围内", "提示");
-                            meaEventAgrs.LastGameLabel.Monster.IsAttack = false;
+                            MessageBox.Show("无法攻击己方生命格子", "提示");
+                            LeftClickEventArgs.LeftClick = Const.LeftClickEnum.AttackMonster;
+                        }
+
+                        else if (meaEventAgrs.NowGameLabel.I == 5 && meaEventAgrs.NowGameLabel.J == 9 &&
+                                 meaEventAgrs.LastGameLabel.Monster.Belongs == Const.PlayerBelongs.PlayerOne)
+                        {
+                            MessageBox.Show("无法攻击己方生命格子", "提示");
                             LeftClickEventArgs.LeftClick = Const.LeftClickEnum.AttackMonster;
                         }
                         else
@@ -179,8 +181,37 @@ namespace game.control
                             AttackMonsterEvent?.Invoke(meaEventAgrs);
                             LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
                         }
-                        
                     }
+                    else
+                    {
+                        if (HasMonster && meaEventAgrs.LastGameLabel.Monster.Belongs == meaEventAgrs.NowGameLabel.Monster.Belongs)
+                        {
+                            MessageBox.Show("请选择敌方怪兽", "提示");
+                            LeftClickEventArgs.LeftClick = Const.LeftClickEnum.AttackMonster;
+                        }
+                        else if (!meaEventAgrs.NowGameLabel.HasMonster)
+                        {
+                            MessageBox.Show("请点击有怪兽的格子", "提示");
+                            LeftClickEventArgs.LeftClick = Const.LeftClickEnum.AttackMonster;
+                        }
+                        else
+                        {
+                            if (Math.Abs(meaEventAgrs.LastGameLabel.I - meaEventAgrs.NowGameLabel.I) != 1 &&
+                                Math.Abs(meaEventAgrs.LastGameLabel.J - meaEventAgrs.NowGameLabel.J) != 1)
+                            {
+                                MessageBox.Show("不在攻击范围内", "提示");
+                                meaEventAgrs.LastGameLabel.Monster.IsAttack = false;
+                                LeftClickEventArgs.LeftClick = Const.LeftClickEnum.AttackMonster;
+                            }
+                            else
+                            {
+                                AttackMonsterEvent?.Invoke(meaEventAgrs);
+                                LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
+                            }
+
+                        }
+                    }
+                    
                 }
                 else if (LeftClickEventArgs.LeftClick == Const.LeftClickEnum.SelectMonster)
                 {
@@ -190,45 +221,51 @@ namespace game.control
             }
             //如果是右键则弹出右键菜单
             //二星怪的效果项禁用，移动一回合只能一次，攻击和效果一回合选一个发动
+            //如果在本回合右键对方的怪兽是不会弹出右键菜单的
             else if (e.Button == MouseButtons.Right)
             {
-                if (LeftClickEventArgs.LeftClick != Const.LeftClickEnum.None)
+                if (HasMonster && (Const.Turn == Const.PlayerTurn.TurnOne && Monster.Belongs == Const.PlayerBelongs.PlayerOne) ||
+                    (Const.Turn == Const.PlayerTurn.TurnTwo && Monster.Belongs == Const.PlayerBelongs.PlayerTwo))
                 {
-                    if (Monster != null && Monster.IsAttack)
+                    if (LeftClickEventArgs.LeftClick != Const.LeftClickEnum.None)
                     {
-                        Monster.IsAttack = false;
-                        LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
+                        if (Monster != null && Monster.IsAttack)
+                        {
+                            Monster.IsAttack = false;
+                            LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
+                        }
+                        else if (Monster != null && Monster.IsMove)
+                        {
+                            Monster.IsMove = false;
+                            LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
+
+                        }
+                        MainPanelRefreshEvent?.Invoke();
                     }
-                    else if (Monster != null && Monster.IsMove)
+                    rightContextMenu = Const.CreateRightContentMenu();
+                    moveMenuItem = Const.MoveMenuItem;
+                    moveMenuItem.Click += MoveMenuItem_Click;
+                    attackMenuItem = Const.AttackMenuItem;
+                    attackMenuItem.Click += AttackMenuItem_Click;
+                    effectMenuItem = Const.EffectMenuItem;
+                    effectMenuItem.Click += EffectMenuItem_Click;
+                    rightContextMenu.Items.Add(moveMenuItem);
+                    rightContextMenu.Items.Add(attackMenuItem);
+                    rightContextMenu.Items.Add(effectMenuItem);
+                    if (HasMonster)
                     {
-                        Monster.IsMove = false;
-                        LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
-                        
+                        if (Monster.Star == 2)
+                            effectMenuItem.Enabled = false;
+                        if (!Monster.CanAttack)
+                            attackMenuItem.Enabled = false;
+                        if (!Monster.CanMove)
+                            moveMenuItem.Enabled = false;
+                        if (!Monster.CanEffective)
+                            effectMenuItem.Enabled = false;
+                        rightContextMenu.Show(this, new Point(e.X, e.Y));
                     }
-                    MainPanelRefreshEvent?.Invoke();
                 }
-                rightContextMenu = Const.CreateRightContentMenu();
-                moveMenuItem = Const.MoveMenuItem;
-                moveMenuItem.Click += MoveMenuItem_Click;
-                attackMenuItem = Const.AttackMenuItem;
-                attackMenuItem.Click += AttackMenuItem_Click;
-                effectMenuItem = Const.EffectMenuItem;
-                effectMenuItem.Click += EffectMenuItem_Click;
-                rightContextMenu.Items.Add(moveMenuItem);
-                rightContextMenu.Items.Add(attackMenuItem);
-                rightContextMenu.Items.Add(effectMenuItem);
-                if (HasMonster)
-                {
-                    if (Monster.Star == 2)
-                        effectMenuItem.Enabled = false;
-                    if (!Monster.CanAttack)
-                        attackMenuItem.Enabled = false;
-                    if (!Monster.CanMove)
-                        moveMenuItem.Enabled = false;
-                    if (!Monster.CanEffective)
-                        effectMenuItem.Enabled = false;
-                    rightContextMenu.Show(this, new Point(e.X, e.Y));
-                }
+                
             }
             Refresh();
         }
@@ -338,6 +375,11 @@ namespace game.control
         public void SetMEAEventArgs(MEAEventAgrs e)
         {
             meaEventAgrs = e;
+        }
+
+        public void MyRefresh()
+        {
+            MainPanelRefreshEvent?.Invoke();
         }
     }
 }

@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using game.entity;
 using MySql.Data.MySqlClient;
 
 namespace game
@@ -65,6 +70,75 @@ namespace game
                 
             }
             return true;
+        }
+
+        public void FillMonsterTable(List<CardMonster> twoMonsters, List<CardMonster> threeMonsters, List<CardMonster> fourMonsters, int length)
+        {
+            connection.Open();
+            try
+            {
+                int nowLength = 0;
+                command = connection.CreateCommand();
+                command.CommandText = "select * from monster";
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                    nowLength++;
+                if (nowLength != length)
+                {
+                    command.CommandText =
+                    "insert into monster values(@id, @star, @name, @descripe, @effect, @attack, @defense, @prop)";
+                    foreach (CardMonster c in twoMonsters)
+                    {
+                        command.Parameters.AddWithValue("@id", c.Star.ToString() + c.Number);
+                        command.Parameters.AddWithValue("@star", c.Star);
+                        command.Parameters.AddWithValue("@name", c.Name);
+                        command.Parameters.AddWithValue("@descripe", c.Descripe);
+                        command.Parameters.AddWithValue("@effect", "无");
+                        command.Parameters.AddWithValue("@attack", c.Attack);
+                        command.Parameters.AddWithValue("@defense", c.Defense);
+                        command.Parameters.AddWithValue("@prop", Const.PropList.ElementAt((int)c.Prop));
+                        command.ExecuteNonQuery();
+                        command.Parameters.Clear();
+                    }
+                    foreach (var c in threeMonsters.Cast<ThreeStarMonster>())
+                    {
+                        command.Parameters.AddWithValue("@id", c.Star.ToString() + c.Number);
+                        command.Parameters.AddWithValue("@star", c.Star);
+                        command.Parameters.AddWithValue("@name", c.Name);
+                        command.Parameters.AddWithValue("@descripe", c.Descripe);
+                        command.Parameters.AddWithValue("@effect", c.Effect);
+                        command.Parameters.AddWithValue("@attack", c.Attack);
+                        command.Parameters.AddWithValue("@defense", c.Defense);
+                        command.Parameters.AddWithValue("@prop", Const.PropList.ElementAt((int)c.Prop));
+                        command.ExecuteNonQuery();
+                        command.Parameters.Clear();
+                    }
+                    foreach (var c in fourMonsters.Cast<FourStarMonster>())
+                    {
+                        command.Parameters.AddWithValue("@id", c.Star.ToString() + c.Number);
+                        command.Parameters.AddWithValue("@star", c.Star);
+                        command.Parameters.AddWithValue("@name", c.Name);
+                        command.Parameters.AddWithValue("@descripe", c.Descripe);
+                        command.Parameters.AddWithValue("@effect", c.Effect);
+                        command.Parameters.AddWithValue("@attack", c.Attack);
+                        command.Parameters.AddWithValue("@defense", c.Defense);
+                        command.Parameters.AddWithValue("@prop", Const.PropList.ElementAt((int)c.Prop));
+                        command.ExecuteNonQuery();
+                        command.Parameters.Clear();
+                    }
+                }
+                
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                connection.Close();
+                command = null;
+//                reader.Close();
+            }
         }
     }
 }

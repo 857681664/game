@@ -16,14 +16,11 @@ namespace game
     /// </summary>
     public class Const
     {
-        
-        //方向
-        public enum Direction { Up, Down, Right, Left }
         //右键菜单
         private static ContextMenuStrip rightContextMenu;
         public static ToolStripMenuItem MoveMenuItem { get; set; }
         public static ToolStripMenuItem AttackMenuItem { get; set; }
-        public static ToolStripMenuItem EffectMenuItem { get; set; }
+        public static ToolStripMenuItem EffectMenuItem { get; set; } 
 
         //怪兽buff类型
         public enum MonsterBuff { AttackIncrease, AttackDecrease, }
@@ -42,7 +39,9 @@ namespace game
         //效果类别：加攻击，减攻击，消灭随从，复活
         public enum PointKindEnum { IncreaseAttack, DecreaseAttack, KillMonster, ReCall, DecreaseLifePoint, Controll, IncreaseLifePoint }
 
+        public enum PlayerTurn { TurnOne, TurnTwo }
 
+        public static PlayerTurn Turn;
         //怪兽卡对应属性名
         public static List<string> PropList = new List<string>() {"暗","光","火","水","地","天空","恶魔","天使","鬼","木"}; 
         //格子宽度

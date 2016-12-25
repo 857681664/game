@@ -114,11 +114,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalMinimumStep.cs" />
     <Compile Include="control\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="control\LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="control\MonsterList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="control\MonsterList.Designer.cs">
+      <DependentUpon>MonsterList.cs</DependentUpon>
     </Compile>
     <Compile Include="control\RegisterForm.cs">
       <SubType>Form</SubType>
@@ -159,6 +166,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="control\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="control\MonsterList.resx">
+      <DependentUpon>MonsterList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="control\RegisterForm.resx">
       <DependentUpon>RegisterForm.cs</DependentUpon>

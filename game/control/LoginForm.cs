@@ -12,7 +12,7 @@ namespace game.control
 {
     public partial class LoginForm : Form
     {
-        private readonly SqlOperate operate;
+        private SqlOperate operate;
         private RegisterForm form;
         private Form1 mainForm;
         public LoginForm()
@@ -27,6 +27,7 @@ namespace game.control
             string password = passwordTBox.Text;
             if (operate.LoginUser(name, password))
             {
+                operate = null;
                 mainForm = new Form1();
                 mainForm.Show();
                 Close();

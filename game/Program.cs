@@ -18,9 +18,9 @@ namespace game
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 //            LoginForm form = new LoginForm();
-//            form.Show();
 
             Form1 form = new Form1();
+//            MonsterList form = new MonsterList();
             form.Show();
             Application.Run();
         }

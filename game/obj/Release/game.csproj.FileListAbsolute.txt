@@ -17,3 +17,4 @@ H:\c#\game\game\obj\Release\game.control.RegisterForm.resources
 H:\c#\game\game\obj\Release\game.control.LoginForm.resources
 H:\c#\game\game\bin\Release\Apache.NMS.ActiveMQ.dll
 H:\c#\game\game\bin\Release\Apache.NMS.dll
+H:\c#\game\game\obj\Release\game.control.MonsterList.resources
