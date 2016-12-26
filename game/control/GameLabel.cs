@@ -14,12 +14,12 @@ namespace game.control
     /// 游戏格子，用来显示玩家所属的领地
     /// </summary>
     [Serializable]
-    public class GameLabel : Label
+    public sealed class GameLabel : Label
     {
-        private ContextMenuStrip rightContextMenu;
-        private ToolStripMenuItem moveMenuItem;
-        private ToolStripMenuItem attackMenuItem;
-        private ToolStripMenuItem effectMenuItem;
+        private ContextMenuStrip rightContextMenu;//右键菜单
+        private ToolStripMenuItem moveMenuItem;//移动右键项
+        private ToolStripMenuItem attackMenuItem;//攻击右键项
+        private ToolStripMenuItem effectMenuItem;//效果右键项
         private MonsterEventArgs monsterEventArgs;//怪兽信息
         private MEAEventAgrs meaEventAgrs;
         private bool isMouseIn;
@@ -312,17 +312,6 @@ namespace game.control
                 {
                     LeftClickEventArgs.LeftClick = Const.LeftClickEnum.SelectMonster;
                 }
-//            }
-            
-//            var canEffect = (bool)t.GetMethod("CanEffect").Invoke(meaEventAgrs.LastGameLabel.Monster, objects);
-//            if (!canEffect)
-//                MessageBox.Show("印章不足，发动失败", "提示");
-//            else
-//            {
-//                if (t == typeof (WuQiHao))
-//                    t.GetMethod("UserEffect").Invoke(meaEventAgrs.LastGameLabel.Monster, objects);
-//                else
-//                    LeftClickEventArgs.LeftClick = Const.LeftClickEnum.SelectMonster;
 //            }
             
         }

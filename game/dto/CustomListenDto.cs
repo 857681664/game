@@ -4,6 +4,9 @@ using game.@event;
 
 namespace game.dto
 {
+    /// <summary>
+    /// 消息监听的发送事件格式
+    /// </summary>
     [Serializable]
     public class CustomListenDto
     {

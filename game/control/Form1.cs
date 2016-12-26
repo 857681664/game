@@ -13,23 +13,24 @@ using game.@event;
 
 namespace game
 {
-    
+    /// <summary>
+    /// 游戏的主要窗口
+    /// </summary>
     public partial class Form1 : Form
     {
         
-        private int skyKnightCount = 3;//天空骑士效果计数器
-        private Const.PlayerBelongs playerBelongs;
+        private Const.PlayerBelongs playerBelongs;//玩家所属
         private MonsterEventArgs monsterEventArgs;//怪兽信息
         private LeftClickEventArgs leftClickEventArgs;//左键点击信息
-        private MEAEventAgrs meaEventAgrs;
+        private MEAEventAgrs meaEventAgrs;//攻击移动效果事件信息
         private GameLabel[,] gameLabels;//游戏的格子
         private Random random;
-        private GameData gameData;
-        private IConnectionFactory factory;
-        private IConnection connection;
-        private ISession session;
-        private IMessageProducer producer;
-        private CustomListenDto dto;
+        private GameData gameData;//游戏数据
+        private IConnectionFactory factory;//连接工厂
+        private IConnection connection;//连接
+        private ISession session;//会话
+        private IMessageProducer producer;//生产者
+        private CustomListenDto dto;//
         private SqlOperate sqlOperate;
         public Form1()
         {
@@ -67,8 +68,10 @@ namespace game
                     mainPanel.Controls.Add(gameLabels[i, j]);
                 }
             }
+            //玩家2的生命格子
             gameLabels[5, 0].BackColor = Color.Red;
             gameLabels[5, 0].Belongs = Const.PlayerBelongs.PlayerTwo;
+            //玩家1的生命格子
             gameLabels[5, 9].BackColor = Color.Blue;
             gameLabels[5, 9].Belongs = Const.PlayerBelongs.PlayerOne;
             gameData.GameLabels = gameLabels;
@@ -99,6 +102,7 @@ namespace game
             int nowLength = gameData.TwoStarMonsters.Count + gameData.ThreeStarMonsters.Count +
                             gameData.FourStarMonsters.Count;
             sqlOperate.FillMonsterTable(gameData.TwoStarMonsters, gameData.ThreeStarMonsters, gameData.FourStarMonsters, nowLength);
+            //把玩家1和玩家2对应的Label和PictureBox加入到相应的list中
             foreach (Control c in Controls)
             {
                 if(c.GetType() == typeof(Label))
@@ -124,12 +128,14 @@ namespace game
         /// <param name="eventArgs"></param>
         private void buttonStart_Click(object sender, EventArgs eventArgs)
         {
+            //如果是玩家1的回合
             if (gameData.PlayerOne.HisTurn)
             {
                 playerBelongs = Const.PlayerBelongs.PlayerOne;
                 Const.Turn = Const.PlayerTurn.TurnOne;
                 TurnStart(gameData.PlayerOne);
             }
+            //如果是玩家2的回合
             else if (gameData.PlayerTwo.HisTurn)
             {
                 playerBelongs = Const.PlayerBelongs.PlayerTwo;
@@ -152,8 +158,10 @@ namespace game
                 card.CanAttack = true;
                 card.CanMove = true;
                 card.CanEffective = true;
+                //如果怪兽还被影响
                 if (card.EffectTurn != 0)                
                     card.EffectTurn--;
+                //如果怪兽影响结束，回复怪兽本来的数值
                 if (card.EffectTurn == 0)
                 {
                     card.IsEffected = false;
@@ -168,6 +176,7 @@ namespace game
                     }
                 }
             }
+            //刷新所有的游戏格子
             foreach (GameLabel label in gameLabels)
             {
                 if (label.HasMonster)
@@ -192,9 +201,9 @@ namespace game
             else
             {
                 
-                player.MoveNumber -= moveSum;
+                player.MoveNumber -= moveSum;//移动印章数减少
                 player.LabelLinkedList.ElementAt(1).Text = player.MoveNumber.ToString();
-                e.LastGameLabel.Monster.CanMove = false;
+                e.LastGameLabel.Monster.CanMove = false;//怪兽设置不可移动
                 e.NowGameLabel.Monster = e.LastGameLabel.Monster;
                 e.NowGameLabel.HasMonster = true;
                 e.LastGameLabel.HasMonster = false;
@@ -246,11 +255,14 @@ namespace game
         {
             if (e.LastGameLabel.Monster.Belongs == Const.PlayerBelongs.PlayerOne)
             {
+                //如果是生命格子
                 if (e.NowGameLabel.I == 5 && e.NowGameLabel.J == 0)
                 {
                     e.Data.PlayerTwo.LifePoint -= e.LastGameLabel.Monster.Attack;
                     playerTwoLPLabel2.Text = e.Data.PlayerTwo.LifePoint.ToString();
                     SendMessage(e, "attackPlayer");
+                    if (e.Data.PlayerTwo.LifePoint <= 0)
+                        MessageBox.Show("鲍东赢了，良俊输了", "提示");
                 }
                 else
                 {
@@ -290,6 +302,8 @@ namespace game
                     e.Data.PlayerTwo.LifePoint -= e.LastGameLabel.Monster.Attack;
                     playerOneLPLabel1.Text = e.Data.PlayerTwo.LifePoint.ToString();
                     SendMessage(e, "attackPlayer");
+                    if (e.Data.PlayerOne.LifePoint <= 0)
+                        MessageBox.Show("良俊赢了，鲍东输了", "提示");
                 }
                 else
                 {
@@ -361,17 +375,6 @@ namespace game
                 e.LastGameLabel.LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
                 SendMessage(e, "pointEffect");
             }
-
-            //            //如果发动失败左键类型不变
-            //            if (!IsEffect)
-            //                e.LastGameLabel.LeftClickEventArgs.LeftClick = Const.LeftClickEnum.SelectMonster;
-            //            //发动成功
-            //            else
-            //            {
-            //                if (t == typeof (YeQiPeng))
-//            monsterTextBox.Text = e.NowGameLabel.Monster.ToString();
-//                e.LastGameLabel.LeftClickEventArgs.LeftClick = Const.LeftClickEnum.None;
-//            }
 
             return true;
         }

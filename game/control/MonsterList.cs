@@ -100,6 +100,11 @@ namespace game.control
             }
         }
 
+        /// <summary>
+        /// 检索按钮事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void searchBtn_Click(object sender, EventArgs e)
         {
             string star = "0", prop = "";
