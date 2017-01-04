@@ -66,6 +66,7 @@
             this.gameInfoTBox = new System.Windows.Forms.RichTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.查看全部ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.更改背景图片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -93,6 +94,7 @@
             // 
             // mainPanel
             // 
+            this.mainPanel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mainPanel.BackgroundImage")));
             this.mainPanel.Location = new System.Drawing.Point(234, 165);
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Size = new System.Drawing.Size(335, 306);
@@ -428,26 +430,38 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("menuStrip1.BackgroundImage")));
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.查看全部ToolStripMenuItem});
+            this.查看全部ToolStripMenuItem,
+            this.更改背景图片ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1045, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(1053, 25);
             this.menuStrip1.TabIndex = 34;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // 查看全部ToolStripMenuItem
             // 
+            this.查看全部ToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.查看全部ToolStripMenuItem.Name = "查看全部ToolStripMenuItem";
             this.查看全部ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
-            this.查看全部ToolStripMenuItem.Text = "查看全部";
+            this.查看全部ToolStripMenuItem.Text = "全部怪兽";
             this.查看全部ToolStripMenuItem.Click += new System.EventHandler(this.查看全部ToolStripMenuItem_Click);
+            // 
+            // 更改背景图片ToolStripMenuItem
+            // 
+            this.更改背景图片ToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.更改背景图片ToolStripMenuItem.Name = "更改背景图片ToolStripMenuItem";
+            this.更改背景图片ToolStripMenuItem.Size = new System.Drawing.Size(92, 21);
+            this.更改背景图片ToolStripMenuItem.Text = "更改背景图片";
+            this.更改背景图片ToolStripMenuItem.Click += new System.EventHandler(this.更改背景图片ToolStripMenuItem_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1045, 585);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.ClientSize = new System.Drawing.Size(1053, 585);
             this.Controls.Add(this.gameInfoTBox);
             this.Controls.Add(this.buttonEnd);
             this.Controls.Add(this.pictureBox8);
@@ -556,6 +570,7 @@
         private System.Windows.Forms.RichTextBox gameInfoTBox;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 查看全部ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 更改背景图片ToolStripMenuItem;
     }
 }
 

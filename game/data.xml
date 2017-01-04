@@ -6,34 +6,34 @@
       <item number ="1" star ="2" name ="迟钝卫士" descripe ="反应迟钝的士兵" attack ="600" defense ="400" prop ="Ground"/>
     </twoStar>
     <threeStar>
+      <item number ="4" star ="3" name ="黑龙领主" descripe ="统领全部邪恶龙族的首领" effect ="当此卡召唤时，此卡的攻击力为己方场上所有暗属性怪兽数量X200" attack ="500" defense ="550" prop ="Dark"   >
+        <effect effectKind ="AfterCall" pointKind ="IncreaseAttack" effectName ="HeiLongEffect" magic ="0" trap ="0"/>
+      </item>
+      <item number ="0" star ="3" name ="北郡牧师" descripe ="救死扶伤的小护士" effect ="使用5个魔法印章和5个陷阱印章，使对方全体怪兽本回合攻击力下降100点" attack ="700" defense ="550" prop ="Angel"   >
+        <effect effectKind ="NotPoint" pointKind ="DecreaseAttack" effectName ="BeiJunEffect" magic ="5" trap ="5"/>
+      </item>
+      <item number ="1" star ="3" name ="宴会技师" descripe ="宴会祭祀的技师，擅长负责宴会事物" effect ="使用3个魔法印章和1个陷阱印章，选择对方一只怪兽，本回合攻击力下降300点" attack ="650" defense ="550" prop ="Angel"   >
+        <effect effectKind ="Point" pointKind ="DecreaseAttack" effectName ="YanHuiEffect" magic ="3" trap ="1"/>
+      </item>
+      <item number ="2" star ="3" name ="叫嚣的中士" descripe ="只会临阵叫嚣的菜鸡" effect ="使用2个魔法印章和2个陷阱印章，选择己方一只怪兽，本回合攻击力上升200点" attack ="550" defense ="550" prop ="Ground"   >
+        <effect effectKind ="Point" pointKind ="IncreaseAttack" effectName ="JiaoXiaoEffect" magic ="2" trap ="2"/>
+      </item>
       <item number ="3" star ="3" name ="恩佐斯的副官" descripe ="邪恶首领恩佐斯的帮手" effect ="使用5个魔方印章和5个陷阱印章，随机复活己方一只死亡的怪兽" attack ="525" defense ="400" prop ="Ground"   >
         <effect effectKind ="NotPoint" pointKind ="ReCall" effectName ="FuGuanEffect" magic ="5" trap ="5"/>
       </item>
 
     </threeStar>
     <fourStar>
-      
+      <item number ="0" star ="4" name ="死亡领主" descripe ="充满死亡的气息" effect ="使用6个魔法印章，扣除对方生命500点" attack ="1000" defense ="550" prop ="Demon">
+        <effect effectKind ="NotPoint" pointKind ="DecreaseLifePoint" effectName ="SiWangEffect" magic ="6" trap ="0"/>
+      </item>
+      <item number ="1" star ="4" name ="密教暗影祭祀" descripe ="神秘的巫师，可以控制心智" effect ="使用10个魔方印章和10个陷阱印章，永久获取敌方一只怪兽的控制权" attack ="1200" defense ="600" prop ="Ghost">
+        <effect effectKind ="Point" pointKind ="Controll" effectName ="MiJiaoEffect" magic ="10" trap ="10"/>
+      </item>
       <item number ="2" star ="4" name ="丛林猎手" descripe ="在丛林中无所不能的捕猎者" effect ="使用7个魔法印章和2个陷阱印章，消灭对方场上一只水属性怪兽" attack ="1100" defense ="700" prop ="Tree">
         <effect effectKind ="Point" pointKind ="KillMonster" effectName ="CongLinEffect" magic ="7" trap ="2"/>
       </item>
     </fourStar>
   </monster>
 </root>
-<!--<item number ="3" star ="3" name ="黑龙领主" descripe ="统领全部邪恶龙族的首领" effect ="当此卡召唤时，此卡的攻击力为己方场上所有暗属性怪兽数量X200" attack ="500" defense ="550" prop ="Dark"   >-->
-<!--  <effect effectKind ="AfterCall" pointKind ="IncreaseAttack" effectName ="HeiLongEffect" magic ="0" trap ="0"/>-->
-<!--</item>-->
-<!--<item number ="0" star ="3" name ="北郡牧师" descripe ="救死扶伤的小护士" effect ="使用5个魔法印章和5个陷阱印章，使对方全体怪兽本回合攻击力下降100点" attack ="700" defense ="550" prop ="Angel"   >-->
-<!--  <effect effectKind ="NotPoint" pointKind ="DecreaseAttack" effectName ="BeiJunEffect" magic ="5" trap ="5"/>-->
-<!--</item>-->
-<!--<item number ="1" star ="3" name ="宴会技师" descripe ="宴会祭祀的技师，擅长负责宴会事物" effect ="使用3个魔法印章和1个陷阱印章，选择对方一只怪兽，本回合攻击力下降300点" attack ="650" defense ="550" prop ="Angel"   >-->
-<!--  <effect effectKind ="Point" pointKind ="DecreaseAttack" effectName ="YanHuiEffect" magic ="3" trap ="1"/>-->
-<!--</item>-->
-<!--<item number ="2" star ="3" name ="叫嚣的中士" descripe ="只会临阵叫嚣的菜鸡" effect ="使用2个魔法印章和2个陷阱印章，选择己方一只怪兽，本回合攻击力上升200点" attack ="550" defense ="550" prop ="Ground"   >-->
-<!--  <effect effectKind ="Point" pointKind ="IncreaseAttack" effectName ="JiaoXiaoEffect" magic ="2" trap ="2"/>-->
-<!--</item>-->
-<!--<item number ="0" star ="4" name ="死亡领主" descripe ="充满死亡的气息" effect ="使用6个魔法印章，扣除对方生命500点" attack ="1000" defense ="550" prop ="Demon">-->
-<!--  <effect effectKind ="NotPoint" pointKind ="DecreaseLifePoint" effectName ="SiWangEffect" magic ="6" trap ="0"/>-->
-<!--</item>-->
-<!--<item number ="1" star ="4" name ="密教暗影祭祀" descripe ="神秘的巫师，可以控制心智" effect ="使用10个魔方印章和10个陷阱印章，永久获取敌方一只怪兽的控制权" attack ="1200" defense ="600" prop ="Ghost">-->
-<!--  <effect effectKind ="Point" pointKind ="Controll" effectName ="MiJiaoEffect" magic ="10" trap ="10"/>-->
-<!--</item>-->
+

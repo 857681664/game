@@ -67,14 +67,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="game.exe" size="188376">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="game.exe" size="293336">
       <assemblyIdentity name="game" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>RmQqy2EDr3QyVRfWsd96etr6BUQENTH7EKdhG1HHX/8=</dsig:DigestValue>
+        <dsig:DigestValue>dR1liG4TtIl8jKNJR9zSHEPXzUy6XhX1v9KWRfwvbC8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -90,13 +90,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="data.xml" size="3485" writeableType="applicationData">
+  <file name="data.xml" size="3463" writeableType="applicationData">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>TutI5fIO1EZkDlHUWbvqPCUJ6UdvrvCLIMeTQ84wGSA=</dsig:DigestValue>
+      <dsig:DigestValue>SWjGcPuSC0AGlHwG2gpVP9KLiyhevwZVr55VCyUztkQ=</dsig:DigestValue>
     </hash>
   </file>
   <file name="game.exe.config" size="184">

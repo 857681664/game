@@ -12,8 +12,8 @@ namespace game
     {
         private static string url = "Server=localhost;Database=db;Uid=root;Pwd=13566189672";
         private static MySqlConnection connection;
-        private static MySqlCommand command;
-        private static MySqlDataReader reader;
+        private MySqlCommand command;
+        private MySqlDataReader reader;
 
         static SqlOperate()
         {
@@ -66,7 +66,7 @@ namespace game
             {
                 connection.Close();
                 command = null;
-                reader = null;
+                reader.Close();
                 
             }
             return true;
@@ -80,7 +80,7 @@ namespace game
                 int nowLength = 0;
                 command = connection.CreateCommand();
                 command.CommandText = "select * from monster";
-                MySqlDataReader reader = command.ExecuteReader();
+                reader = command.ExecuteReader();
                 while (reader.Read())
                     nowLength++;
                 if (nowLength != length)
@@ -137,7 +137,7 @@ namespace game
             {
                 connection.Close();
                 command = null;
-//                reader.Close();
+                reader.Close();
             }
         }
     }

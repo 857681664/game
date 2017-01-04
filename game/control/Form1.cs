@@ -242,8 +242,8 @@ namespace game
                     }
                 }
             }
-            int stepSum = CalMinimumStep.MiniMumStep(matrix, e.LastGameLabel.I, e.LastGameLabel.J, e.NowGameLabel.I,
-                e.NowGameLabel.J);
+            int stepSum = CalMinimumStep.MiniMumStep(matrix, e.LastGameLabel.J, e.LastGameLabel.I, e.NowGameLabel.J,
+                e.NowGameLabel.I);
             return stepSum;
         }
 
@@ -670,7 +670,7 @@ namespace game
             else if (dto.EventKind.Equals("notPointEffect") || dto.EventKind.Equals("aftercall"))
                 info = dto.PlayerOne + "：" + dto.MonsterOne + "-> 发动效果\r\n";
             else if (dto.EventKind.Equals("attackPlayer"))
-                info = dto.PlayerOne + "：" + dto.MonsterOne + "->对" + dto.PlayerTwo + "造成了" + dto.Attack + "点伤害";
+                info = dto.PlayerOne + "：" + dto.MonsterOne + "->对" + dto.PlayerTwo + "造成了" + dto.Attack + "点伤害\r\n";
             else
                 info = dto.PlayerOne + "：" + dto.MonsterOne + "-> 发动效果" + "-> " + dto.PlayerTwo + "：" + dto.MonsterTwo + "\r\n";
             if (gameData.PlayerOne.HisTurn)
@@ -704,6 +704,18 @@ namespace game
             
             MonsterList form = new MonsterList(gameData);
             form.Show();
+        }
+
+        private void 更改背景图片ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Title = "请选择图片";
+            dialog.Filter = "所有文件(*.*)|*.*";
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                BackgroundImage = Image.FromFile(dialog.FileName);
+                menuStrip1.BackgroundImage = Image.FromFile(dialog.FileName);
+            }
         }
     }
 }
